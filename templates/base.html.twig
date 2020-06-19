@@ -1,12 +1,61 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
 </html>
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Polly{% endblock %}</title>
+    {% block stylesheets %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="./../public/styles/index.css" />
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="{{ path('app_register') }}" class="logo"></a>
+        <div class="navbar__icons">
+            <a href="/polls" class="material-icons-round navbar__icon">
+                trending_up
+                <p class="icon--text secondary label">Trending</p>
+            </a>
+            {% if app.user %}
+            <a href="/polls/new" class="material-icons-round navbar__icon">
+                add_circle
+                <p class="icon--text secondary label">New Poll</p>
+            </a>
+            <a href="" id="account-button" class="material-icons-round navbar__icon">
+                face
+                <p class="icon--text secondary label">Account</p>
+            </a>
+             {% else %}
+            <a href="{{ path('app_login') }}" class="material-icons-round navbar__icon">
+                login
+                <p class="icon--text secondary label">Sign In</p>
+            </a>
+            {% endif %}
+        </div>
+        <div id="account-menu" class="card">
+            <a href="/polls" class="button-link">My Polls</a>
+            <a href="/polls" class="button-link">Polls</a>
+            <a href="/users" class="button-link">Users</a>
+            <a href="{{ path('app_logout') }}" class="button-link button-link-destructive">
+                Log Out</a>
+        </div>
+    </div>
+    {% block body %}{% endblock %}
+    {% block javascripts %}
+    <script>
+        const accountButton = document.getElementById("account-button");
+        const accountMenu = document.getElementById("account-menu");
+
+        accountButton.addEventListener("click", toggleAccountMenu);
+
+        function toggleAccountMenu(e) {
+            e.preventDefault();
+            accountButton.classList.toggle("icon-active");
+            accountMenu.classList.toggle("menu-active");
+        }
+    </script>
+    {% endblock %}
+</body>

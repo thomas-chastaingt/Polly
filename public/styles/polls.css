@@ -1,0 +1,42 @@
+.polls-view {
+  width: 100%;
+  background-color: white;
+}
+
+.item {
+  height: 80px;
+  border-top: 1px solid var(--separator);
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color var(--transition-in);
+  outline: none;
+}
+
+.item:hover {
+  background-color: rgba(0, 0, 0, 0.025);
+}
+
+.item:active {
+  background-color: rgba(0, 0, 0, 0.05);
+  transition: none;
+}
+
+.item__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item__count {
+  margin: 4px;
+}
+
+.action {
+  width: 24px;
+  height: 24px;
+  margin: 4px;
+}

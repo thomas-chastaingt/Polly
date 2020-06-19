@@ -1,0 +1,115 @@
+.navbar {
+  background: white;
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  width: 56px;
+  height: 56px;
+  background: url("images/logo.png") top center / contain no-repeat;
+}
+
+.navbar__icons {
+  height: 100%;
+  display: flex;
+  justify-self: flex-end;
+  align-items: center;
+  margin-right: 20px;
+  border-radius: 16px;
+}
+
+.navbar__icons > a {
+  transition: var(--transition-in);
+  border-radius: 16px;
+}
+
+.navbar__icons > a:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--secondary-label);
+}
+
+.navbar__icons > a:hover > p {
+  color: var(--secondary-label);
+}
+
+.navbar__icons > a:active {
+  background-color: rgba(0, 0, 0, 0.03);
+  transition: none;
+  color: var(--terciary-label);
+}
+
+.navbar__icons > a:active > p {
+  color: var(--terciary-label);
+}
+
+.navbar__icon {
+  margin: 4px;
+  color: var(--terciary-label);
+  cursor: pointer;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px 0 8px;
+}
+
+.icon-active {
+  background-color: var(--secondary-purple);
+  color: var(--primary-purple);
+  border-radius: 16px;
+}
+
+.icon-active > p {
+  color: var(--primary-purple);
+}
+
+.icon--text {
+  margin-left: 4px;
+  color: var(--terciary-label);
+  font-size: 14px;
+}
+
+@media only screen and (max-width: 650px) {
+  .icon--text {
+    display: none;
+  }
+}
+
+#account-menu {
+  position: absolute;
+  width: 156px;
+  border-radius: 8px;
+  background: white;
+  right: 16px;
+  top: 72px;
+  padding: 0;
+  overflow: hidden;
+  display: none;
+  z-index: 9999999;
+}
+
+#account-menu > .button-link {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+}
+
+#account-menu > .button-link:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+#account-menu > .button-link:active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+#account-menu > .button-link + * {
+  border-top: 1px solid var(--separator);
+}
+
+.menu-active {
+  display: block !important;
+}

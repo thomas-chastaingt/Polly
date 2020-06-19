@@ -1,0 +1,26 @@
+@import "shared/colors.css";
+@import "shared/typography.css";
+@import "shared/card.css";
+@import "shared/form.css";
+@import "shared/button.css";
+@import "shared/transitions.css";
+
+@import "navbar.css";
+@import "auth.css";
+@import "polls.css";
+@import "poll.css";
+@import "new_poll.css";
+
+body {
+  background-color: var(--background);
+  margin: 0;
+}
+
+button {
+  border: 0;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
