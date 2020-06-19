@@ -1,0 +1,150 @@
+.poll_view {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.poll__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.poll__instruction {
+  margin-top: 16px;
+}
+
+.poll__empty-container {
+  height: 148px;
+  background: linear-gradient(transparent, #f7eafe);
+  border-radius: 16px;
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.map {
+  border-radius: 16px;
+  margin-top: 8px;
+  margin-bottom: 24px;
+  height: 350px;
+}
+
+@media only screen and (min-width: 800px) {
+  .map {
+    height: 512px;
+  }
+}
+
+.poll__options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 8px;
+  row-gap: 8px;
+  margin-top: 8px;
+}
+
+.poll__option {
+  background: var(--secondary-purple);
+  color: white;
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--primary-purple);
+  letter-spacing: -0.41px;
+  line-height: 22px;
+  border-radius: 12px;
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+  transition: var(--transition-in);
+  cursor: pointer;
+  overflow-x: auto;
+}
+
+.poll__option:hover {
+  filter: opacity(0.8);
+  transform: scale(1.02);
+}
+
+.poll__option:active {
+  filter: opacity(0.5);
+  transform: scale(0.95);
+  transition: none;
+}
+
+.poll__option-selected {
+  background-color: var(--primary-purple);
+  color: white;
+}
+
+.poll__button {
+  margin-top: 24px;
+}
+
+.analytics_card {
+  margin-top: 16px;
+}
+
+.analytics__title {
+  display: flex;
+  align-items: center;
+}
+
+.analytics__title__icon {
+  margin-right: 8px;
+}
+
+.analytics__global {
+  columns: 2;
+  column-gap: 8px;
+  margin-top: 8px;
+}
+
+.analytics_card .poll__empty-container {
+  margin-bottom: 0;
+}
+
+.share_card {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  z-index: -1;
+  grid-column-end: 3;
+  grid-column-start: 1;
+}
+
+.share__icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.share__icons > * {
+  margin-left: 16px;
+  color: var(--secondary-label);
+  cursor: pointer;
+}
+
+.share__icons > *:hover {
+  filter: brightness(0);
+}
+
+@media only screen and (min-width: 700px) {
+  .poll_view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 16px;
+  }
+
+  .analytics_card {
+    margin: 0;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .poll_view {
+    width: 960px;
+    margin: auto;
+  }
+}

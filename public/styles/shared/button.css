@@ -1,0 +1,48 @@
+.button-primary {
+  background: var(--primary-blue);
+  border-radius: 12px;
+  height: 44px;
+  color: white;
+  font-size: 17px;
+  letter-spacing: -0.41px;
+  line-height: 22px;
+  transition: var(--transition-in);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  cursor: pointer;
+  font-size: 17px;
+  color: #ffffff;
+  letter-spacing: -0.41px;
+  text-align: center;
+  line-height: 22px;
+}
+
+.button:hover {
+  filter: opacity(0.8);
+  transform: scale(1.02);
+}
+
+.button:active {
+  filter: opacity(0.5);
+  transform: scale(0.98);
+  transition: none;
+}
+
+.button-link {
+  color: var(--primary-blue);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button__icon {
+  margin-right: 6px;
+  margin-bottom: 2px;
+}
+
+.button-link-destructive {
+  color: var(--primary-red);
+}

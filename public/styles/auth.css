@@ -1,0 +1,44 @@
+.auth-card {
+  width: 360px;
+}
+
+@media only screen and (max-width: 650px) {
+  .auth-card {
+    width: auto;
+  }
+
+  .auth__form {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.auth__form {
+  margin-top: 16px;
+}
+
+.auth__form form {
+  margin-top: 20px;
+}
+
+.auth-button {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-container {
+  height: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-container .button-link {
+  width: fit-content;
+  margin: auto;
+  margin-top: 24px;
+}
