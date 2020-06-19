@@ -11,8 +11,12 @@
     width: 100%;
     box-sizing: border-box;
   }
-}
 
+ 
+}
+ #registration_form_email {
+  box-sizing: border-box;
+ }
 .auth__form {
   margin-top: 16px;
 }

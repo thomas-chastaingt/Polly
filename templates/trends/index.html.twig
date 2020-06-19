@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="polls-view">
+  <div class="item">
+    <div class="item__title">
+      <p class="item__title__name label">Foo or bar?</p>
+      <p class="item__title__author footnote terciary">johndoe</p>
+    </div>
+    <div class="item__actions">
+      <div class="material-icons-round terciary action">
+        visibility
+      </div>
+      <span class="material-icons-round terciary action">
+        delete_forever
+      </span>
+      <p class="item__count footnote terciary">128</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

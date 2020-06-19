@@ -7,28 +7,24 @@
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
 
-    <div class="auth-container">
+<div class="auth-container">
   <div class="card auth-card auth__form">
     <p class="title">Sign Up</p>
-    <form method="POST">
-      <input type="email" placeholder="Email" />
-      <input type="password" placeholder="Password" />
+    {{ form_start(registrationForm) }}
+      {{ form_row(registrationForm.email, { 'attr': {
+      'placeholder': "Email"}})  }}
+      {{ form_row(registrationForm.plainPassword, {
+          label: false,
+          'attr': {
+            'placeholder': "Password"
+          }
+      }) }}
       <button type="submit" class="button-primary button auth-button">
         <div class="material-icons-round button__icon">face</div>
         Create Account
       </button>
-    </form>
+    {{ form_end(registrationForm) }}
   </div>
   <a href="{{ path('app_login') }}" class="button button-link">Already have an account?</a>
 </div>
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
 {% endblock %}
