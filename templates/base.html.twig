@@ -35,7 +35,7 @@
             {% endif %}
         </div>
         <div id="account-menu" class="card">
-            <a href="/polls" class="button-link">My Polls</a>
+            <a href="{{ path('polls_user') }}" class="button-link">My Polls</a>
             <a href="{{ path('polls_index') }}" class="button-link">Polls</a>
             <a href="{{ path('user_index') }}" class="button-link">Users</a>
             <a href="{{ path('app_logout') }}" class="button-link button-link-destructive">
