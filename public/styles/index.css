@@ -11,6 +11,7 @@
 @import "poll.css";
 @import "new_poll.css";
 
+
 body {
   background-color: var(--background);
   margin: 0;

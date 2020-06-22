@@ -60,6 +60,7 @@ class Polls
     {
         $this->options = new ArrayCollection();
         $this->pollAnswers = new ArrayCollection();
+        $this->dateCreation = new \DateTime(`now`);
     }
 
     public function getId(): ?int
@@ -188,7 +189,7 @@ class Polls
 
         return $this;
     }
-    
+
     public function __toString()
     {
         return $this->title;
