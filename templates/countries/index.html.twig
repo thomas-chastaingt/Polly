@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Countries index{% endblock %}
+
+{% block body %}
+    <h1>Countries index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for country in countries %}
+            <tr>
+                <td>{{ country.id }}</td>
+                <td>{{ country.name }}</td>
+                <td>
+                    <a href="{{ path('countries_show', {'id': country.id}) }}">show</a>
+                    <a href="{{ path('countries_edit', {'id': country.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('countries_new') }}">Create new</a>
+{% endblock %}
