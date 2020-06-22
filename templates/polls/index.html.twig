@@ -9,12 +9,12 @@
             <p class="item__title__author footnote terciary">{{ poll.dateCreation ? poll.dateCreation|date('Y-m-d H:i:s') : '' }}</p>
         </div>
         <div class="item__actions">
-            <div class="material-icons-round terciary action">
+            <a href="{{ path('polls_edit', {'id': poll.id}) }}"><div class="material-icons-round terciary action">
                 visibility
-            </div>
-            <span class="material-icons-round terciary action">
+            </div></a>
+            <a href="{{ path('polls_delete', {'id': poll.id}) }}"><span class="material-icons-round terciary action">
                 delete_forever
-            </span>
+            </span></a>
         </div>
     </div>
 </div>
