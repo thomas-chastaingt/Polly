@@ -1,3 +1,6 @@
 index:
     path: /
     controller: App\Controller\RegistrationController::register
+home:
+    path: /polls/new
+    controller: App\Controller\PollsController::new
