@@ -1,39 +1,24 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Polls index{% endblock %}
-
 {% block body %}
-    <h1>Polls index</h1>
+{% for poll in polls %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Hide</th>
-                <th>DateCreation</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for poll in polls %}
-            <tr>
-                <td>{{ poll.id }}</td>
-                <td>{{ poll.title }}</td>
-                <td>{{ poll.hide ? 'Yes' : 'No' }}</td>
-                <td>{{ poll.dateCreation ? poll.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('polls_show', {'id': poll.id}) }}">show</a>
-                    <a href="{{ path('polls_edit', {'id': poll.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('polls_new') }}">Create new</a>
+<div class="polls-view">
+    <div class="item">
+        <div class="item__title">
+            <p class="item__title__name label">{{ poll.title}}</p>
+            <p class="item__title__author footnote terciary">{{ poll.dateCreation ? poll.dateCreation|date('Y-m-d H:i:s') : '' }}</p>
+        </div>
+        <div class="item__actions">
+            <div class="material-icons-round terciary action">
+                visibility
+            </div>
+            <span class="material-icons-round terciary action">
+                delete_forever
+            </span>
+        </div>
+    </div>
+</div>
+{% else %}
+    <p>no records found</p>
+{% endfor %}
 {% endblock %}
