@@ -7,14 +7,14 @@ Polly is a plateform which permits to create et share polls.
 
 ### Requirements
 
-Make sure the following dependencies are installed:
+Make sure that the following dependencies are installed:
 - [Composer](https://getcomposer.org/)
 - [Symfony](https://symfony.com/)
 
 ### Running
 
 - composer install
-- export .sql files in your mySQL DATABASE
+- important export .sql file in your mySQL DATABASE
 
 
 ## Codebase
@@ -22,7 +22,7 @@ Make sure the following dependencies are installed:
 #### Technologies
 Here is a list of all the big technologies we use:
 
-    - PHP 
+    - PHP (Symfony)
     - Javascript
     - HTML, CSS
 
