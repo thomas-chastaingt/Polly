@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Options;
+use App\Form\OptionsType;
+use App\Repository\OptionsRepository;
 use App\Entity\Polls;
 use App\Form\PollsType;
 use App\Repository\PollsRepository;
@@ -42,13 +44,17 @@ class PollsController extends AbstractController
     public function new(Request $request): Response
     {
         $poll = new Polls();
+        $options = new Options(); 
         $form = $this->createForm(PollsType::class, $poll);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($poll);
-            $entityManager->flush();
+           if($this->getUser()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $poll->setAuthor($this->getUser());
+                $entityManager->persist($poll);
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('polls_index');
         }
@@ -58,6 +64,20 @@ class PollsController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/{id}/answers", name="answers_polls")
+     */
+    public function polls_answers(Polls $poll, OptionsRepository $optionsRepository)
+    {
+        $options = $optionsRepository->findByPolls($poll);
+
+        return $this->render('polls/answers_polls.html.twig', [
+            'options' => $options,
+            'poll' => $poll
+        ]);
+    }
+
 
     /**
      * @Route("/{id}", name="polls_show", methods={"GET"})
