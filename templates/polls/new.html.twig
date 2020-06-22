@@ -8,4 +8,106 @@
     {{ include('polls/_form.html.twig') }}
 
     <a href="{{ path('polls_index') }}">back to list</a>
+    <div class="new-poll_view">
+  <div class="card new-poll-card">
+    <input class="new-poll-title" type="text" placeholder="Title..." />
+    <p class="footnote secondary poll__instruction">Country</p>
+    <select class="new-poll__select">
+      <option value="france">🇫🇷 France</option>
+    </select>
+    <p class="footnote secondary poll__instruction">Options</p>
+    <div class="poll__options">
+      <div class="new_poll_input">
+        <input placeholder="New Option..." />
+        <div class="material-icons-round new_poll_input__add-icon">
+          add_circle
+        </div>
+      </div>
+    </div>
+    <div class="button button-primary poll__button">
+      <div class="material-icons-round button__icon">
+        add_circle
+      </div>
+      Create poll
+    </div>
+  </div>
+</div>
+
+<script>
+  let titleNode;
+  let countryNode;
+  let optionsNode;
+  let newOptionInput;
+  let submitButton;
+  let removeIcons;
+  let addOptionIcon;
+
+  function handleSubmit(e) {
+    const poll = {
+      title: titleNode.value,
+      country: countryNode.options[countryNode.selectedIndex].value,
+      options: getPollOptions(),
+    };
+
+    // Send POST request to server
+    console.log(poll);
+  }
+
+  function getPollOptions() {
+    const optionData = Array.from(optionsNode.childNodes).map(
+      (node) => node.childNodes[0]?.data
+    );
+    return optionData.filter((o) => !!o);
+  }
+
+  function initHandlers() {
+    titleNode = document.querySelector(".new-poll-title");
+    countryNode = document.querySelector(".new-poll__select");
+    optionsNode = document.querySelector(".poll__options");
+    newOptionInput = document.querySelector(".new_poll_input > input");
+    submitButton = document.querySelector(".poll__button");
+    removeIcons = document.querySelectorAll(".remove-option-icon");
+    addOptionIcon = document.querySelector(".new_poll_input__add-icon");
+
+    for (const icon of removeIcons) {
+      icon.addEventListener("click", handleDeleteOption);
+    }
+
+    newOptionInput.addEventListener("keypress", handleNewOptionClick);
+    addOptionIcon.addEventListener("click", (e) => {
+      addOption(newOptionInput.value);
+    });
+    submitButton.addEventListener("click", handleSubmit);
+
+    function handleNewOptionClick(e) {
+      if (e.key === "Enter") {
+        addOption(e.target.value);
+        e.target.value = null;
+      }
+    }
+
+    function handleDeleteOption(e) {
+      e.target.parentNode.remove();
+    }
+
+    function addOption(val) {
+      const newOption = document.createElement("div");
+      newOption.classList.add("poll__option");
+      newOption.textContent = val;
+
+      const removeIcon = document.createElement("div");
+      removeIcon.classList.add("material-icons-round", "remove-option-icon");
+      removeIcon.textContent = "remove_circle";
+      removeIcon.addEventListener("click", handleDeleteOption);
+
+      newOption.appendChild(removeIcon);
+
+      optionsNode.prepend(newOption);
+
+      getPollOptions();
+    }
+  }
+
+  initHandlers();
+</script>
 {% endblock %}
