@@ -14,8 +14,8 @@ Make sure the following dependencies are installed:
 ### Running
 
 - composer install
+- export .sql files in your mySQL DATABASE
 
-```
 
 ## Codebase
 
