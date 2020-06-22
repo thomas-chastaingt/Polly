@@ -26,6 +26,16 @@ class PollsController extends AbstractController
     }
 
     /**
+     * @Route("/user", name="polls_user", methods={"GET"})
+     */
+    public function mypolls(PollsRepository $pollsRepository): Response
+    {
+        return $this->render('polls/mypolls.html.twig', [
+            'polls' => $pollsRepository->findAll(),
+        ]);
+    }
+
+    /**
      * @Route("/new", name="polls_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response

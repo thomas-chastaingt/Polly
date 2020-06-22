@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{% for poll in polls %}
+
+{% if app.user == poll.author %}
+<div class="polls-view">
+    <div class="item">
+        <div class="item__title">
+            <p class="item__title__name label">{{ poll.title }}</p>
+            <p class="item__title__author footnote terciary">{{ poll.dateCreation ? poll.dateCreation|date('Y-m-d H:i:s') : '' }}</p>
+        </div>
+        <div class="item__actions">
+            <div class="material-icons-round terciary action">
+                visibility
+            </div>
+            <span class="material-icons-round terciary action">
+                delete_forever
+            </span>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% else %}
+    <p>no records found</p>
+{% endfor %}
+{% endblock %}
