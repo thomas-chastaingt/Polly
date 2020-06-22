@@ -3,12 +3,12 @@
 {% block title %}New Polls{% endblock %}
 
 {% block body %}
-    <h1>Create new Polls</h1>
+<h1>Create new Polls</h1>
 
-    {{ include('polls/_form.html.twig') }}
+{{ include('polls/_form.html.twig') }}
 
-    <a href="{{ path('polls_index') }}">back to list</a>
-    <div class="new-poll_view">
+<a href="{{ path('polls_index') }}">back to list</a>
+<div class="new-poll_view">
   <div class="card new-poll-card">
     <input class="new-poll-title" type="text" placeholder="Title..." />
     <p class="footnote secondary poll__instruction">Country</p>
@@ -55,7 +55,7 @@
 
   function getPollOptions() {
     const optionData = Array.from(optionsNode.childNodes).map(
-      (node) => node.childNodes[0]?.data
+      (node) => node.childNodes[0] ? .data
     );
     return optionData.filter((o) => !!o);
   }
