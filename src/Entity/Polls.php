@@ -51,6 +51,11 @@ class Polls
      */
     private $pollAnswers;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateCreation;
+
     public function __construct()
     {
         $this->options = new ArrayCollection();
@@ -168,6 +173,18 @@ class Polls
                 $pollAnswer->setPoll(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(\DateTimeInterface $dateCreation): self
+    {
+        $this->dateCreation = $dateCreation;
 
         return $this;
     }
