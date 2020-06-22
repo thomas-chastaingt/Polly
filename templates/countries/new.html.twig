@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Countries{% endblock %}
+
+{% block body %}
+    <h1>Create new Countries</h1>
+
+    {{ include('countries/_form.html.twig') }}
+
+    <a href="{{ path('countries_index') }}">back to list</a>
+{% endblock %}
