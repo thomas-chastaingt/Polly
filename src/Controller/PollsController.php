@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Polls;
+use App\Entity\Options;
 use App\Form\PollsType;
+use App\Form\OptionsType;
 use App\Repository\PollsRepository;
+use App\Repository\OptionsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,19 +28,36 @@ class PollsController extends AbstractController
         ]);
     }
 
+
+     /**
+     * @Route("/user", name="polls_user", methods={"GET"})
+     */
+    public function mypolls(PollsRepository $pollsRepository): Response
+    {
+        return $this->render('polls/mypolls.html.twig', [
+            'polls' => $pollsRepository->findAll(),
+        ]);
+    }
+
     /**
      * @Route("/new", name="polls_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $poll = new Polls();
+        $options = new Options();  
+        
         $form = $this->createForm(PollsType::class, $poll);
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($poll);
-            $entityManager->flush();
+            if($this->getUser()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $poll->setAuthor($this->getUser());
+                $entityManager->persist($poll);
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('polls_index');
         }
@@ -90,5 +110,18 @@ class PollsController extends AbstractController
         }
 
         return $this->redirectToRoute('polls_index');
+    }
+
+    /**
+     * @Route("/{id}/answers", name="answers_polls")
+     */
+    public function polls_answers(Polls $poll, OptionsRepository $optionsRepository)
+    {
+        $options = $optionsRepository->findByPolls($poll);
+
+        return $this->render('polls/answers_polls.html.twig', [
+            'options' => $options,
+            'poll' => $poll
+        ]);
     }
 }
