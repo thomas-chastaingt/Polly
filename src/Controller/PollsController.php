@@ -22,6 +22,9 @@ class PollsController extends AbstractController
      */
     public function index(PollsRepository $pollsRepository): Response
     {
+        if(!$this->isGranted('ROLE_MODERATOR') && !$this->isGranted('ROLE_ADMIN')){
+            throw $this->createAccessDeniedException('not allowed');
+        }
         return $this->render('polls/index.html.twig', [
             'polls' => $pollsRepository->findAll(),
         ]);
@@ -33,6 +36,7 @@ class PollsController extends AbstractController
      */
     public function mypolls(PollsRepository $pollsRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('polls/mypolls.html.twig', [
             'polls' => $pollsRepository->findAll(),
         ]);
@@ -43,6 +47,7 @@ class PollsController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $poll = new Polls();
         $options = new Options(); 
         $form = $this->createForm(PollsType::class, $poll);
@@ -65,18 +70,18 @@ class PollsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/answers", name="answers_polls")
-     */
-    public function polls_answers(Polls $poll, OptionsRepository $optionsRepository)
-    {
-        $options = $optionsRepository->findByPolls($poll);
+    // /**
+    //  * @Route("/{id}/answers", name="answers_polls")
+    //  */
+    // public function polls_answers(Polls $poll, OptionsRepository $optionsRepository)
+    // {
+    //     $options = $optionsRepository->findByPolls($poll);
 
-        return $this->render('polls/answers_polls.html.twig', [
-            'options' => $options,
-            'poll' => $poll
-        ]);
-    }
+    //     return $this->render('polls/answers_polls.html.twig', [
+    //         'options' => $options,
+    //         'poll' => $poll
+    //     ]);
+    // }
 
 
     /**
@@ -84,6 +89,7 @@ class PollsController extends AbstractController
      */
     public function show(Polls $poll): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('polls/show.html.twig', [
             'poll' => $poll,
         ]);
@@ -94,6 +100,7 @@ class PollsController extends AbstractController
      */
     public function edit(Request $request, Polls $poll): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(PollsType::class, $poll);
         $form->handleRequest($request);
 
