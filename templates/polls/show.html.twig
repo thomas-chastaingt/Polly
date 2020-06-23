@@ -3,29 +3,21 @@
 {% block title %}Polls{% endblock %}
 
 {% block body %}
+    
+    <div style="display: flex; flex-direction: column; width: 360px; padding: 24px; background-color: white; margin: auto; margin-top: 20px; border-radius: 12px;">
     <h1>Delete polls</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ poll.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ poll.title }}</td>
-            </tr>
-            <tr>
-                <th>Hide</th>
-                <td>{{ poll.hide ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>DateCreation</th>
-                <td>{{ poll.dateCreation ? poll.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div>
+            Id: {{ poll.id }}
+        </div>
+        <div>
+            Title: {{ poll.title }}
+        </div>
+        <div>
+            Date: {{ poll.dateCreation ? poll.dateCreation|date('Y-m-d H:i:s') : '' }}
+        </div>
+        {{ include('polls/_delete_form.html.twig') }}
+    </div>
 
 
-    {{ include('polls/_delete_form.html.twig') }}
+    
 {% endblock %}
