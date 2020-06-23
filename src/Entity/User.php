@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"email"}, message="Il existe déja un compte avec cet email.")
+ * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email.")
  */
 class User implements UserInterface
 {
@@ -36,9 +39,14 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity=Polls::class, mappedBy="author")
      */
-    private $username;
+    private $polls;
+
+    public function __construct()
+    {
+        $this->polls = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -118,10 +126,39 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function setUsername(string $username): self
+    /**
+     * @return Collection|Polls[]
+     */
+    public function getPolls(): Collection
     {
-        $this->username = $username;
+        return $this->polls;
+    }
+
+    public function addPoll(Polls $poll): self
+    {
+        if (!$this->polls->contains($poll)) {
+            $this->polls[] = $poll;
+            $poll->setAuthor($this);
+        }
 
         return $this;
+    }
+
+    public function removePoll(Polls $poll): self
+    {
+        if ($this->polls->contains($poll)) {
+            $this->polls->removeElement($poll);
+            // set the owning side to null (unless already changed)
+            if ($poll->getAuthor() === $this) {
+                $poll->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    public function __toString()
+    {
+        return $this->email;
     }
 }
