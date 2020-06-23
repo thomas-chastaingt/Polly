@@ -7,8 +7,6 @@
     <div class="congrats_share">
         <h2> Share on: </h2>
     </div>
-    <div class="card share_card">
-    Share :
     <div class="share__icons">
       <ion-icon name="logo-facebook"></ion-icon>
       <ion-icon name="logo-linkedin"></ion-icon>
@@ -16,8 +14,14 @@
         link
       </div>
     </div>
-  </div>
 </div>
 <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+<script>
+document.getElementById('share-icon').addEventListener("click", function handleShare(){
+  const url = "http://localhost/Polly/poll/answers"
+});
 
+</script>
 {% endblock %}
+
+

@@ -43,6 +43,11 @@ class User implements UserInterface
      */
     private $polls;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified = false;
+
 
 
     public function __construct()
@@ -163,5 +168,17 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->email;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
     }
 }
