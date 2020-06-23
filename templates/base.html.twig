@@ -34,13 +34,26 @@
             </a>
             {% endif %}
         </div>
-        <div id="account-menu" class="card">
-            <a href="{{ path('polls_user') }}" class="button-link">My Polls</a>
-            <a href="{{ path('polls_index') }}" class="button-link">Polls</a>
-            <a href="{{ path('user_index') }}" class="button-link">Users</a>
-            <a href="{{ path('app_logout') }}" class="button-link button-link-destructive">
-                Log Out</a>
-        </div>
+        {% if is_granted('ROLE_ADMIN') %}
+            <div id="account-menu" class="card">
+                <a href="{{ path('polls_user') }}" class="button-link">My Polls</a>
+                <a href="{{ path('polls_index') }}" class="button-link">Polls</a>
+                <a href="{{ path('user_index') }}" class="button-link">Users</a>
+                <a href="{{ path('app_logout') }}" class="button-link button-link-destructive">Log Out</a>
+            </div>
+        {% elseif is_granted('ROLE_MODERATOR') %}
+            <div id="account-menu" class="card">
+                <a href="{{ path('polls_user') }}" class="button-link">My Polls</a>
+                <a href="{{ path('polls_index') }}" class="button-link">Polls</a>
+                <a href="{{ path('app_logout') }}" class="button-link button-link-destructive">Log Out</a>
+            </div>
+        {% elseif is_granted('ROLE_USER') %}
+            <div id="account-menu" class="card">
+                <a href="{{ path('polls_user') }}" class="button-link">My Polls</a>
+                <a href="{{ path('app_logout') }}" class="button-link button-link-destructive">Log Out</a>
+            </div>
+        {% endif %}
+        
     </div>
     {% block body %}{% endblock %}
     {% block javascripts %}
