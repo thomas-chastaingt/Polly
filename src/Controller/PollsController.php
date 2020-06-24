@@ -52,7 +52,7 @@ class PollsController extends AbstractController
         $options = new Options(); 
         $form = $this->createForm(PollsType::class, $poll);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             
            if($this->getUser()) {

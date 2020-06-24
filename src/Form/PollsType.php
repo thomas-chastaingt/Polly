@@ -5,7 +5,7 @@ use App\Entity\Polls;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Form\OptionsType;
+// use App\Form\OptionsType;
 
 
 class PollsType extends AbstractType
@@ -17,11 +17,11 @@ class PollsType extends AbstractType
             ->add('hide')
             ->add('country')    
         ;
-        $builder->add('options', OptionsType::class, array(
-            'data_class'   =>  null,
-        ));
+        // $builder->add('options', OptionsType::class, array(
+        //     'data_class'   =>  null,
+        // ));
     }
-
+    
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
