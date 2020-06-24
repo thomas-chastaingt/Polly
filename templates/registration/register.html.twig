@@ -8,9 +8,9 @@
   <div class="card auth-card auth__form">
     <p class="title">Sign Up</p>
     {{ form_start(registrationForm) }}
-      {{ form_row(registrationForm.email, { 'attr': {
+      {{ form_widget(registrationForm.email, { 'attr': {
       'placeholder': "Email"}})  }}
-      {{ form_row(registrationForm.plainPassword, {
+      {{ form_widget(registrationForm.plainPassword, {
           label: false,
           'attr': {
             'placeholder': "Password"

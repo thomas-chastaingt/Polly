@@ -1,7 +1,20 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <h1>Create new Options</h1>
+<div class="new-poll_view">
+    <div class="card new-poll-card">
+        {{ form_start(form) }}
+        {{ form_widget(form.name, {'attr': {'placeholder': 'Option name...'}}) }}
+        <p class="footnote secondary poll__instruction">Choose a poll:</p>
+        {{ form_widget(form.polls) }}
+        <button class="button-primary button auth-button">
+            <div class="material-icons-round button__icon">
+                add_circle
+            </div>{{ button_label|default('Save') }}
+        </button>
+        {{ form_end(form) }}
+        <a href="{{ path('confirmation') }}" style="text-decoration: none;"><div
+                class="button-primary button auth-button">Finish</div></a>
+    </div>
+</div>
 
-    {{ include('options/_form.html.twig') }}
-    <button class="btn"><a href="{{ path('confirmation') }}">Confirmer le sondage</a></button>
 {% endblock %}
