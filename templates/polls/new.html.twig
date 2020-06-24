@@ -3,11 +3,6 @@
 {% block title %}New Polls{% endblock %}
 
 {% block body %}
-<h1>Create new Polls</h1>
-
-{{ include('polls/_form.html.twig') }}
-
-<a href="{{ path('polls_index') }}">back to list</a>
 <div class="new-poll_view">
   <div class="card new-poll-card">
     <form method="POST">
