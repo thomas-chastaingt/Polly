@@ -23,7 +23,6 @@
 var valueInput = document.getElementById("tocopy");
 function copying() {
 valueInput.select();
-document.execCommand('copy');
 valueInput.setSelectionRange(0, 99999)
 document.execCommand("copy");
 snackbar();

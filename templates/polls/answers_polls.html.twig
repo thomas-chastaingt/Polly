@@ -52,21 +52,46 @@
         <p class="footnote secondary poll__instruction">Regional</p>
         <div class="poll__empty-container"></div>
     </div>
-    <div class="card share_card">
-        Share
+
+
+       
+
         <div class="share__icons">
-            <ion-icon name="logo-facebook"></ion-icon>
-            <ion-icon name="logo-linkedin"></ion-icon>
-            <div class="material-icons-round">
+            <input type="text" id="input-uri" />
+            <div class="material-icons-round" id="link">
                 link
             </div>
         </div>
-    </div>
+
 </div>
+<div id="snackbar">The link have been copied</div>
 <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
 
 <script>
+    //share part
+    var input = document.getElementById("input-uri");
+    input.value = document.location.href;
+    document.getElementById("link").addEventListener("click", copying);
+
+    function copying() {
+        var inputUri = document.getElementById("input-uri");
+        inputUri.select();
+        inputUri.setSelectionRange(0, 99999)
+        document.execCommand("copy");
+        snackbar();
+    }
+
+    function snackbar() {
+        var snackbar = document.getElementById("snackbar");
+        snackbar.className = "show";
+        setTimeout(function () {
+            snackbar.className = snackbar.className.replace("show", "");
+        }, 3000);
+    }
+
+
+
     const submitButton = document.querySelector(".poll__button");
     const departmentIndicator = document.querySelector(".department");
 
@@ -180,5 +205,77 @@
 
     initMap();
 </script>
+<style>
+    #snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #af52de;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        border-radius: 12px;
+    }
 
+
+    #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+
+    @-webkit-keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+
+    @keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+</style>
 {% endblock %}
