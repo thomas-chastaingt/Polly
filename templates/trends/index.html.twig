@@ -1,20 +1,27 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="polls-view">
-  <div class="item">
-    <div class="item__title">
-      <p class="item__title__name label">Foo or bar?</p>
-      <p class="item__title__author footnote terciary">johndoe</p>
+<h1>Trends<h1>
+    {% for i in range (0, (stats | length)-1) %}
+    {% if stats[i].poll.hide == 0 %}
+    <div class="polls-view"> 
+      <div class="item">
+	<div class="item__title">
+	  <p class="item__title__author footnote terciary">{{ stats[i].count }}</p>
+	  <p class="item__title__name label">
+	    {{ stats[i].poll.title }}
+	  </p>	 
+	  <p class="item__title__author footnote terciary">
+	      {{ stats[i].poll.dateCreation ? stats[i].poll.dateCreation|date('Y-m-d H:i:s') : '' }}
+	  </p>
+	  <p class="item__title__author footnote terciary">
+	    {{ stats[i].poll.author }}
+	  </p>	  	 	  
+	</div>
+	<div></div>	
+      </div>     
     </div>
-    <div class="item__actions">
-      <div class="material-icons-round terciary action">
-        visibility
-      </div>
-      <span class="material-icons-round terciary action">
-        delete_forever
-      </span>
-      <p class="item__count footnote terciary">128</p>
-    </div>
-  </div>
-</div>
-{% endblock %}
+    {% endif %}   
+    {% else %}
+    <p>no records found</p>
+    {% endfor %}
+    {% endblock %}
