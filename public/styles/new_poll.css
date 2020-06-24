@@ -71,13 +71,14 @@
 
 .new_poll_input__add-icon {
   color: var(--primary-purple);
-  margin-right: 16px;
+  padding: 40px;
   cursor: pointer;
-  transition: var(--transition-in);
+ 
+
 }
 
 .new_poll_input__add-icon:hover {
-  transform: scale(1.1);
+  
 }
 
 .new_poll_input__add-icon:active {

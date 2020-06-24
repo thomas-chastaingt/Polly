@@ -1,12 +1,10 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}New Polls{% endblock %}
-
 {% block body %}
+{{ include('polls/_form.html.twig') }}
 <div class="new-poll_view">
   <div class="card new-poll-card">
     <form method="POST">
-      <input class="new-poll-title" type="text" placeholder="Title..." name="title" required/>
+      <input class="new-poll-title" type="text" placeholder="Title..." name="title" required />
       <p class="footnote secondary poll__instruction">Country</p>
       <select class="new-poll__select" name="poll-country">
         <option value="france">🇫🇷 France</option>
@@ -15,15 +13,9 @@
       <div class="poll__options">
         <div class="new_poll_input">
           <input placeholder="New Option..." name="new-option-1" />
-          <div class="material-icons-round new_poll_input__add-icon">
-            add_circle
-          </div>
         </div>
         <div class="new_poll_input">
           <input placeholder="New Option..." name="new-option-2" />
-          <div class="material-icons-round new_poll_input__add-icon">
-            add_circle
-          </div>
         </div>
       </div>
       <Button class="button button-primary poll__button" type="submit">

@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Form;
-
 use App\Entity\Polls;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Form\OptionsType;
+
 
 class PollsType extends AbstractType
 {
@@ -14,8 +15,11 @@ class PollsType extends AbstractType
         $builder
             ->add('title')
             ->add('hide')
-            ->add('country')
+            ->add('country')    
         ;
+        $builder->add('options', OptionsType::class, array(
+            'data_class'   =>  null,
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

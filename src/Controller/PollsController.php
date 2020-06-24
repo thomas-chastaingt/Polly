@@ -54,6 +54,7 @@ class PollsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
            if($this->getUser()) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $poll->setAuthor($this->getUser());
