@@ -10,26 +10,34 @@
 <a href="{{ path('polls_index') }}">back to list</a>
 <div class="new-poll_view">
   <div class="card new-poll-card">
-    <input class="new-poll-title" type="text" placeholder="Title..." />
-    <p class="footnote secondary poll__instruction">Country</p>
-    <select class="new-poll__select">
-      <option value="france">🇫🇷 France</option>
-    </select>
-    <p class="footnote secondary poll__instruction">Options</p>
-    <div class="poll__options">
-      <div class="new_poll_input">
-        <input placeholder="New Option..." />
-        <div class="material-icons-round new_poll_input__add-icon">
-          add_circle
+    <form method="POST">
+      <input class="new-poll-title" type="text" placeholder="Title..." name="title" required/>
+      <p class="footnote secondary poll__instruction">Country</p>
+      <select class="new-poll__select" name="poll-country">
+        <option value="france">🇫🇷 France</option>
+      </select>
+      <p class="footnote secondary poll__instruction">Options</p>
+      <div class="poll__options">
+        <div class="new_poll_input">
+          <input placeholder="New Option..." name="new-option-1" />
+          <div class="material-icons-round new_poll_input__add-icon">
+            add_circle
+          </div>
+        </div>
+        <div class="new_poll_input">
+          <input placeholder="New Option..." name="new-option-2" />
+          <div class="material-icons-round new_poll_input__add-icon">
+            add_circle
+          </div>
         </div>
       </div>
-    </div>
-    <div class="button button-primary poll__button">
-      <div class="material-icons-round button__icon">
-        add_circle
-      </div>
-      Create poll
-    </div>
+      <Button class="button button-primary poll__button" type="submit">
+        <div class="material-icons-round button__icon">
+          add_circle
+        </div>
+        Create poll
+      </Button>
+    </form>
   </div>
 </div>
 
