@@ -71,18 +71,18 @@ class PollsController extends AbstractController
         ]);
     }
 
-    // /**
-    //  * @Route("/{id}/answers", name="answers_polls")
-    //  */
-    // public function polls_answers(Polls $poll, OptionsRepository $optionsRepository)
-    // {
-    //     $options = $optionsRepository->findByPolls($poll);
+    /**
+     * @Route("/{id}/answers", name="answers_polls")
+     */
+    public function polls_answers(Polls $poll, OptionsRepository $optionsRepository)
+    {
+        $options = $optionsRepository->findByPolls($poll);
 
-    //     return $this->render('polls/answers_polls.html.twig', [
-    //         'options' => $options,
-    //         'poll' => $poll
-    //     ]);
-    // }
+        return $this->render('polls/answers_polls.html.twig', [
+            'options' => $options,
+            'poll' => $poll
+        ]);
+    }
 
 
     /**

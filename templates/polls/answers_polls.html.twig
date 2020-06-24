@@ -1,0 +1,184 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+
+<div class="poll_view">
+    <div class="card">
+        <div class="poll__header">
+            <p class="title">{{ poll.title }}</p>
+        </div>
+        <p class="footnote secondary poll__instruction">Select your location:</p>
+        <div id="map" class="map"></div>
+        <p class="footnote secondary poll__instruction">Department:</p>
+        <p class="title department"></p>
+        <p class="footnote secondary poll__instruction">Choose your answer:</p>
+        <div class="poll__options">
+            {% for option in options %}
+            <div class="poll__option">{{ option.name }}</div>
+            {% else %}
+            <div class="poll__option">No option found</div>
+            {% endfor %}
+        </div>
+        <div class="button button-primary poll__button">
+            <div class="material-icons-round button__icon">
+                how_to_vote
+            </div>
+            Vote
+        </div>
+    </div>
+
+    <div class="card analytics_card">
+        <div class="poll__header">
+            <div class="title secondary analytics__title">
+                <div class="material-icons-round analytics__title__icon">
+                    assessment
+                </div>
+                Analytics
+            </div>
+        </div>
+        <p class="footnote secondary poll__instruction">Global</p>
+        <div class="analytics__global">
+            <div>
+                <p class="large-title">124</p>
+                <p class="footnote terciary">Answers</p>
+            </div>
+            <div>
+                <p class="large-title">3</p>
+                <p class="footnote terciary">Departments</p>
+            </div>
+        </div>
+        <p class="footnote secondary poll__instruction">Regional</p>
+        <div class="poll__empty-container"></div>
+    </div>
+    <div class="card share_card">
+        Share
+        <div class="share__icons">
+            <ion-icon name="logo-facebook"></ion-icon>
+            <ion-icon name="logo-linkedin"></ion-icon>
+            <div class="material-icons-round">
+                link
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+
+<script>
+    const submitButton = document.querySelector(".poll__button");
+    const departmentIndicator = document.querySelector(".department");
+
+    // Dataset of the map. Updated according to the poll country
+    const dataset = {
+        deps: "https://gist.githubusercontent.com/valaymerick/9690c82d6937015beb61b85a754d84e4/raw/eef0acc7967f26b3e7abf2b4519aebb3d7e9a8c2/departments-fr.geojson",
+        coords: [2.3522, 46.8566],
+        zoom: 4,
+        initialDep: 75,
+    };
+    const pollOptions = document.querySelector(".poll__options").childNodes;
+
+    submitButton.addEventListener("click", handleVote);
+    departmentIndicator.textContent = dataset.initialDep;
+
+    // Add events listeners to each option node
+    for (const option of pollOptions) {
+        option.addEventListener("click", function (event) {
+            cleanOptions();
+            option.classList.add("poll__option-selected");
+        });
+    }
+
+    // Handle click events on the "vote" button
+    function handleVote(e) {
+        selectedAnswer = document.querySelector(".poll__option-selected")
+            .textContent;
+
+        const vote = {
+            selectedAnswer,
+            selectedDep: departmentIndicator.textContent,
+        };
+
+        // Send POST request to server
+        console.log(vote);
+    }
+
+    function cleanOptions() {
+        const selectedOptions = document.querySelectorAll(".poll__option-selected");
+        for (const option of selectedOptions) {
+            option.classList.remove("poll__option-selected");
+        }
+    }
+
+    function initMap() {
+        mapboxgl.accessToken =
+            "pk.eyJ1IjoidmFsYXltZXJpY2siLCJhIjoiY2pyZmoxZWE0MHcxazQ5cDh3cWl1d3Q3aSJ9.c5JVdraGeQEgNaEZR40Bdw";
+        const map = new mapboxgl.Map({
+            container: "map",
+            style: "mapbox://styles/mapbox/streets-v11",
+            center: dataset.coords,
+            zoom: dataset.zoom,
+            initialDep: 75,
+        });
+        let hoveredStateId = null;
+
+        map.on("load", function () {
+            map.addSource("states", {
+                type: "geojson",
+                data: dataset.deps,
+            });
+
+            map.addLayer({
+                id: "state-fills",
+                type: "fill",
+                source: "states",
+                layout: {},
+                paint: {
+                    "fill-color": "rgba(175, 82, 222, 0.5)",
+                    "fill-opacity": [
+                        "case",
+                        ["boolean", ["feature-state", "hover"], false],
+                        1,
+                        0.5,
+                    ],
+                },
+            });
+
+            map.addLayer({
+                id: "state-borders",
+                type: "line",
+                source: "states",
+                layout: {},
+                paint: {
+                    "line-color": "#af52de",
+                    "line-width": 2,
+                },
+            });
+
+            map.on("click", "state-fills", function (e) {
+                if (e.features.length > 0) {
+                    map.setFeatureState({
+                        source: "states",
+                        id: hoveredStateId
+                    }, {
+                        hover: false
+                    });
+                    hoveredStateId = e.features[0].id;
+                    map.setFeatureState({
+                        source: "states",
+                        id: hoveredStateId
+                    }, {
+                        hover: true
+                    });
+                    selectedDep = e.features[0].id;
+                    departmentIndicator.textContent = selectedDep;
+                }
+            });
+        });
+    }
+
+    initMap();
+</script>
+
+{% endblock %}
