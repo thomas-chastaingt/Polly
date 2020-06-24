@@ -23,7 +23,7 @@ class PollsController extends AbstractController
     public function index(PollsRepository $pollsRepository): Response
     {
         if(!$this->isGranted('ROLE_MODERATOR') && !$this->isGranted('ROLE_ADMIN')){
-            throw $this->createAccessDeniedException('not allowed');
+            throw $this->createAccessDeniedException('not allowed because youre not mod or admin');
         }
         return $this->render('polls/index.html.twig', [
             'polls' => $pollsRepository->findAll(),
@@ -49,7 +49,6 @@ class PollsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $poll = new Polls();
-        $options = new Options(); 
         $form = $this->createForm(PollsType::class, $poll);
         $form->handleRequest($request);
         
@@ -62,7 +61,7 @@ class PollsController extends AbstractController
                 $entityManager->flush();
             }
 
-            return $this->redirectToRoute('polls_index');
+            return $this->redirectToRoute('options_new');
         }
 
         return $this->render('polls/new.html.twig', [
