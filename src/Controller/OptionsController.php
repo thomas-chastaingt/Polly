@@ -39,7 +39,7 @@ class OptionsController extends AbstractController
             $entityManager->persist($option);
             $entityManager->flush();
 
-            return $this->redirectToRoute('options_index');
+            return $this->redirectToRoute('options_new');
         }
 
         return $this->render('options/new.html.twig', [
