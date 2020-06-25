@@ -12,11 +12,11 @@
         <p class="footnote secondary poll__instruction">Select your location:</p>
         <div id="map" class="map"></div>
         <p class="footnote secondary poll__instruction">Department:</p>
-        <p class="title department"></p>
+        <input class="title department"></input>
         <p class="footnote secondary poll__instruction">Choose your answer:</p>
         <div class="poll__options">
             {% for option in options %}
-            <div class="poll__option">{{ option.name }}</div>
+            <input class="poll__option" value="{{ option.name }}"></input>
             {% else %}
             <div class="poll__option">No option found</div>
             {% endfor %}
@@ -102,7 +102,7 @@
     const pollOptions = document.querySelector(".poll__options").childNodes;
 
     submitButton.addEventListener("click", handleVote);
-    departmentIndicator.textContent = dataset.initialDep;
+    departmentIndicator.value = dataset.initialDep;
 
     // Add events listeners to each option node
     for (const option of pollOptions) {
@@ -115,11 +115,11 @@
     // Handle click events on the "vote" button
     function handleVote(e) {
         selectedAnswer = document.querySelector(".poll__option-selected")
-            .textContent;
+            .value;
 
         const vote = {
             selectedAnswer,
-            selectedDep: departmentIndicator.textContent,
+            selectedDep: departmentIndicator.value,
         };
 
         // Send POST request to server
@@ -194,7 +194,7 @@
                         hover: true
                     });
                     selectedDep = e.features[0].id;
-                    departmentIndicator.textContent = selectedDep;
+                    departmentIndicator.value = selectedDep;
                 }
             });
         });
