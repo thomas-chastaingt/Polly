@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
 
 <div class="poll_view">
@@ -9,34 +8,36 @@
         <div class="poll__header">
             <p class="title">{{ poll.title }}</p>
         </div>
-        <p class="footnote secondary poll__instruction">Select your location:</p>
-        <div id="map" class="map"></div>
-        <p class="footnote secondary poll__instruction">Department:</p>
-        <input class="title department"></input>
-        <p class="footnote secondary poll__instruction">Choose your answer:</p>
-        <div class="poll__options">
-            {% for option in options %}
-            <input class="poll__option" value="{{ option.name }}"></input>
-            {% else %}
-            <div class="poll__option">No option found</div>
-            {% endfor %}
-        </div>
-        <div class="button button-primary poll__button">
-            <div class="material-icons-round button__icon">
-                how_to_vote
+        <form method="POST">
+            <p class="footnote secondary poll__instruction">Select your location:</p>
+            <div id="map" class="map"></div>
+            <p class="footnote secondary poll__instruction">Department:</p>
+            <input class="title department" name="department"></input>
+            <p class="footnote secondary poll__instruction">Choose your answer:</p>
+            <div class="poll__options">
+                {% for option in options %}
+                <input class="poll__option" value="{{ option.name }}" name="name"></input>
+                {% else %}
+                <div class="poll__option">No option found</div>
+                {% endfor %}
             </div>
-            Vote
-        </div>
+            <div class="button button-primary poll__button">
+                <div class="material-icons-round button__icon">
+                    how_to_vote
+                </div>
+                Vote
+            </div>
+        </form>
     </div>
 
     <div class="card analytics_card">
         <div>
-        <p class="title secondary">Click to share:</p>
-        <div class="material-icons-round" id="link">
+            <p class="title secondary">Click to share:</p>
+            <div class="material-icons-round" id="link">
                 link
             </div>
             <input type="text" id="input-uri" />
-            
+
         </div>
         <div class="poll__header">
             <div class="title secondary analytics__title">

@@ -6,6 +6,7 @@ use App\Form\OptionsType;
 use App\Repository\OptionsRepository;
 use App\Entity\Polls;
 use App\Form\PollsType;
+use App\Form\PollsCreateType;
 use App\Repository\PollsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,13 +50,14 @@ class PollsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $poll = new Polls();
-        $form = $this->createForm(PollsType::class, $poll);
+        $form = $this->createForm(PollsCreateType::class, $poll);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            
+                
            if($this->getUser()) {
                 $entityManager = $this->getDoctrine()->getManager();
+                $poll->setHide(0);
                 $poll->setAuthor($this->getUser());
                 $entityManager->persist($poll);
                 $entityManager->flush();
@@ -76,7 +78,7 @@ class PollsController extends AbstractController
     public function polls_answers(Polls $poll, OptionsRepository $optionsRepository)
     {
         $options = $optionsRepository->findByPolls($poll);
-
+        
         return $this->render('polls/answers_polls.html.twig', [
             'options' => $options,
             'poll' => $poll
