@@ -2,16 +2,29 @@
 {% block body %}
 <div class="new-poll_view">
     <div class="card new-poll-card">
-        {{ form_start(form) }}
-        {{ form_widget(form.name, {'attr': {'placeholder': 'Option name...'}}) }}
-        <p class="footnote secondary poll__instruction">Choose a poll:</p>
-        {{ form_widget(form.polls) }}
-        <button class="button-primary button auth-button">
-            <div class="material-icons-round button__icon">
-                add_circle
-            </div>{{ button_label|default('Save') }}
-        </button>
-        {{ form_end(form) }}
+        <h2>{{poll.title}}</h2>
+        {% if poll.options|length == 6 %}
+            <p>You reached the maximum amount of options allowed per poll.</p>
+        {% endif %}
+        {% if poll.options|length < 6 %}
+            {{ form_start(form) }}
+            {{ form_widget(form.name, {'attr': {'placeholder': 'Option name...'}}) }}
+            <button class="button-primary button auth-button">
+                <div class="material-icons-round button__icon">
+                    add_circle
+                </div>{{ button_label|default('Save') }}
+            </button>
+            {{ form_end(form) }}
+        {% endif %}
+        {% for option in poll.options %}
+                <p>{{option.name}} 
+                    <form method="post" action="{{ path('options_delete_on_poll_creation', {'id': option.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="_method" value="DELETE_ON_POLL_CREATION">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ option.id) }}">
+                        <button class="btn">Delete</button>
+                    </form>
+                </p>
+            {% endfor %}
         <a href="{{ path('confirmation') }}" style="text-decoration: none;"><div
                 class="button-primary button auth-button">Finish</div></a>
     </div>

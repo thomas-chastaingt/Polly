@@ -61,7 +61,7 @@ class PollsController extends AbstractController
                 $entityManager->flush();
             }
 
-            return $this->redirectToRoute('options_new');
+            return $this->redirectToRoute('options_new', ['id' => $poll->getId()]);
         }
 
         return $this->render('polls/new.html.twig', [

@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Options;
+use App\Entity\Polls;
 use App\Form\OptionsType;
+use App\Form\OptionsTypeNew;
 use App\Repository\OptionsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,12 +28,13 @@ class OptionsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="options_new", methods={"GET","POST"})
+     * @Route("/{id}/new", name="options_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Polls $polls, Request $request): Response
     {
         $option = new Options();
-        $form = $this->createForm(OptionsType::class, $option);
+        $option->setPolls($polls);
+        $form = $this->createForm(OptionsTypeNew::class, $option);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -39,12 +42,14 @@ class OptionsController extends AbstractController
             $entityManager->persist($option);
             $entityManager->flush();
 
-            return $this->redirectToRoute('options_new');
+            return $this->redirectToRoute('options_new', ['id' => $polls->getId()]);
         }
 
         return $this->render('options/new.html.twig', [
             'option' => $option,
             'form' => $form->createView(),
+            'poll' => $polls,
+            'pollName' => $polls->getTitle(),
         ]);
     }
 
@@ -90,5 +95,19 @@ class OptionsController extends AbstractController
         }
 
         return $this->redirectToRoute('options_index');
+    }
+
+    /**
+     * @Route("/{id}", name="options_delete_on_poll_creation", methods={"DELETE_ON_POLL_CREATION"})
+     */
+    public function deleteOnPollCreation(Request $request, Options $option): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$option->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($option);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('options_new', ['id' => $option->getPolls()->getId()]);
     }
 }
