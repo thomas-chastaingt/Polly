@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Polls;
 use App\Entity\PollAnswers;
 use App\Form\PollAnswersType;
+use App\Form\PollAnswersTypeNew;
 use App\Repository\PollAnswersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +32,6 @@ class PollAnswersController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $pollAnswer = new PollAnswers();
         $form = $this->createForm(PollAnswersType::class, $pollAnswer);
         $form->handleRequest($request);

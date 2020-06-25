@@ -47,4 +47,17 @@ class PollAnswersRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function countByNumberAnswers()
+    {
+        $query = $this->createQueryBuilder('pa')
+                      ->select('p.title', 'p.hide', 'COUNT(p.title) as numberAnswers')
+                      ->join('pa.poll', 'p')
+                      ->groupBy('p.title')
+                      ->orderBy('COUNT(p.title)', 'DESC')
+
+            ;
+
+        return $query->getQuery()->getArrayResult();
+    }
 }
