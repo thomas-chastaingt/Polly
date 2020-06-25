@@ -19,6 +19,19 @@ class PollAnswersRepository extends ServiceEntityRepository
         parent::__construct($registry, PollAnswers::class);
     }
 
+    public function countByNumberAnswers()
+    {
+        $query = $this->createQueryBuilder('pa')
+                      ->select('p.title', 'p.hide', 'COUNT(p.title) as numberAnswers')
+                      ->join('pa.poll', 'p')
+                      ->groupBy('p.title')
+                      ->orderBy('COUNT(p.title)', 'DESC')
+            
+            ;
+        
+        return $query->getQuery()->getArrayResult();
+    }
+
     // /**
     //  * @return PollAnswers[] Returns an array of PollAnswers objects
     //  */
