@@ -39,7 +39,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Polls::class, mappedBy="author")
+     * @ORM\OneToMany(targetEntity=Polls::class,  cascade={"persist", "remove"}, mappedBy="author")
      */
     private $polls;
 
