@@ -54,6 +54,12 @@
             </div>
         {% endif %}
     </div>
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     {% block body %}{% endblock %}
     {% block javascripts %}
     <script>

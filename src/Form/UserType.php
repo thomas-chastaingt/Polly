@@ -18,7 +18,8 @@ class UserType extends AbstractType
                 'choices' => [
                     'Utilisateur' => 'ROLE_USER',
                     'Moderator' => 'ROLE_MODERATOR',
-                    'Administrator' => 'ROLE_ADMIN'
+                    'Administrator' => 'ROLE_ADMIN',
+                    'Verified' => 'ROLE_VERIFIED'
                 ],
                 'expanded' => true,
                 'multiple' => true,
