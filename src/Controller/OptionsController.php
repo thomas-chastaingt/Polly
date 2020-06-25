@@ -94,20 +94,7 @@ class OptionsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('options_index');
-    }
-
-    /**
-     * @Route("/{id}", name="options_delete_on_poll_creation", methods={"DELETE_ON_POLL_CREATION"})
-     */
-    public function deleteOnPollCreation(Request $request, Options $option): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$option->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($option);
-            $entityManager->flush();
-        }
-
         return $this->redirectToRoute('options_new', ['id' => $option->getPolls()->getId()]);
     }
+
 }

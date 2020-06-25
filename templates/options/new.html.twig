@@ -18,8 +18,8 @@
         {% endif %}
         {% for option in poll.options %}
                 <p>{{option.name}} 
-                    <form method="post" action="{{ path('options_delete_on_poll_creation', {'id': option.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-                        <input type="hidden" name="_method" value="DELETE_ON_POLL_CREATION">
+                    <form method="post" action="{{ path('options_delete', {'id': option.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ option.id) }}">
                         <button class="btn">Delete</button>
                     </form>
