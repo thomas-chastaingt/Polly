@@ -21,6 +21,11 @@ class PollAnswersController extends AbstractController
      */
     public function index(PollAnswersRepository $pollAnswersRepository): Response
     {
+        // deny access unless admin role
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("warning", "You must be admin to access this page.");
+            return $this->redirectToRoute('app_login');
+        }
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('poll_answers/index.html.twig', [
             'poll_answers' => $pollAnswersRepository->findAll(),
@@ -55,43 +60,58 @@ class PollAnswersController extends AbstractController
      */
     public function show(PollAnswers $pollAnswer): Response
     {
+        // deny access unless admin role
+         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("warning", "You must be admin to access this page.");
+            return $this->redirectToRoute('app_login');
+        }
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('poll_answers/show.html.twig', [
             'poll_answer' => $pollAnswer,
         ]);
     }
 
-    // /**
-    //  * @Route("/{id}/edit", name="poll_answers_edit", methods={"GET","POST"})
-    //  */
-    // public function edit(Request $request, PollAnswers $pollAnswer): Response
-    // {
-    //     $form = $this->createForm(PollAnswersType::class, $pollAnswer);
-    //     $form->handleRequest($request);
+    /**
+     * @Route("/{id}/edit", name="poll_answers_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, PollAnswers $pollAnswer): Response
+    {
+        // deny access unless admin role
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("warning", "You must be admin to access this page.");
+            return $this->redirectToRoute('app_login');
+        }
+        $form = $this->createForm(PollAnswersType::class, $pollAnswer);
+        $form->handleRequest($request);
 
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $this->getDoctrine()->getManager()->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
 
-    //         return $this->redirectToRoute('poll_answers_index');
-    //     }
+            return $this->redirectToRoute('poll_answers_index');
+        }
 
-    //     return $this->render('poll_answers/edit.html.twig', [
-    //         'poll_answer' => $pollAnswer,
-    //         'form' => $form->createView(),
-    //     ]);
-    // }
+        return $this->render('poll_answers/edit.html.twig', [
+            'poll_answer' => $pollAnswer,
+            'form' => $form->createView(),
+        ]);
+    }
 
-    // /**
-    //  * @Route("/{id}", name="poll_answers_delete", methods={"DELETE"})
-    //  */
-    // public function delete(Request $request, PollAnswers $pollAnswer): Response
-    // {
-    //     if ($this->isCsrfTokenValid('delete'.$pollAnswer->getId(), $request->request->get('_token'))) {
-    //         $entityManager = $this->getDoctrine()->getManager();
-    //         $entityManager->remove($pollAnswer);
-    //         $entityManager->flush();
-    //     }
+    /**
+     * @Route("/{id}", name="poll_answers_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, PollAnswers $pollAnswer): Response
+    {
+        // deny access unless admin role
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("warning", "You must be admin to access this page.");
+            return $this->redirectToRoute('app_login');
+        }
+        if ($this->isCsrfTokenValid('delete'.$pollAnswer->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($pollAnswer);
+            $entityManager->flush();
+        }
 
-    //     return $this->redirectToRoute('poll_answers_index');
-    // }
+        return $this->redirectToRoute('poll_answers_index');
+    }
 }

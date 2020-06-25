@@ -1,27 +1,28 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    {% for flashError in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-    {% endfor %}
+{% for flashError in app.flashes('verify_email_error') %}
+<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+{% endfor %}
 
 <div class="auth-container">
   <div class="card auth-card auth__form">
     <p class="title">Sign Up</p>
     {{ form_start(registrationForm) }}
-      {{ form_widget(registrationForm.email, { 'attr': {
-      'placeholder': "Email"}})  }}
-      {{ form_widget(registrationForm.plainPassword, {
+    {{ form_widget(registrationForm.email, { 'attr': {
+      'placeholder': "Email"}}) }}
+    {{ form_widget(registrationForm.plainPassword, {
           label: false,
           'attr': {
             'placeholder': "Password"
           }
       }) }}
-      <button type="submit" class="button-primary button auth-button" id="#validate">
-        <div class="material-icons-round button__icon">face</div>
-        Create Account
-      </button>
+    <button type="submit" class="button-primary button auth-button" id="#validate">
+      <div class="material-icons-round button__icon">face</div>
+      Create Account
+    </button>
     {{ form_end(registrationForm) }}
   </div>
   <a href="{{ path('app_login') }}" class="button button-link">Already have an account?</a>
+
 </div>
 {% endblock %}

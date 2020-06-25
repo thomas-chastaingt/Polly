@@ -17,6 +17,11 @@
       </button>
     </form>
   </div>
+  {% for message in app.flashes('warning') %}
+  <div class="alert alert-success">
+    <h1>{{ message }} ✉️</h1>
+  </div>
+  {% endfor %}
   <a href="{{ path('app_register') }}" class="button button-link">New here?</a>
 </div>
 {% endblock %}

@@ -20,7 +20,12 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        // deny access unless admin role
+         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("warning", "You must be admin.");
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
@@ -32,7 +37,12 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        // deny access unless admin role
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("warning", "You must be admin.");
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
@@ -44,6 +54,7 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -64,7 +75,11 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        // deny access unless admin role
+         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("warning", "You must be admin.");
+            return $this->redirectToRoute('app_login');
+        }
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);

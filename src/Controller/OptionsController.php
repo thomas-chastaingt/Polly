@@ -21,7 +21,11 @@ class OptionsController extends AbstractController
      * @Route("/", name="options_index", methods={"GET"})
      */
     public function index(OptionsRepository $optionsRepository): Response
-    {
+    {   // deny access unless admin role
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("warning", "You must be admin to access this page.");
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('options/index.html.twig', [
             'options' => $optionsRepository->findAll(),
         ]);
@@ -32,6 +36,10 @@ class OptionsController extends AbstractController
      */
     public function new(Polls $polls, Request $request): Response
     {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_VERIFIED')) {
+            $this->addFlash("warning", "You must verify your email.");
+            return $this->redirectToRoute('app_login');
+        }
         $option = new Options();
         $option->setPolls($polls);
         $form = $this->createForm(OptionsTypeNew::class, $option);
@@ -60,6 +68,11 @@ class OptionsController extends AbstractController
      */
     public function show(Options $option): Response
     {
+        // deny access unless admin role
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("warning", "You must be admin to access this page.");
+            return $this->redirectToRoute('app_login');
+        }
         return $this->render('options/show.html.twig', [
             'option' => $option,
         ]);
@@ -70,6 +83,11 @@ class OptionsController extends AbstractController
      */
     public function edit(Request $request, Options $option): Response
     {
+        // deny access unless admin role
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("warning", "You must be admin to access this page.");
+            return $this->redirectToRoute('app_login');
+        }
         $form = $this->createForm(OptionsType::class, $option);
         $form->handleRequest($request);
 
@@ -90,6 +108,11 @@ class OptionsController extends AbstractController
      */
     public function delete(Request $request, Options $option): Response
     {
+        // deny access unless admin role
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->addFlash("warning", "You must be admin to access this page.");
+            return $this->redirectToRoute('app_login');
+        }
         if ($this->isCsrfTokenValid('delete'.$option->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($option);
