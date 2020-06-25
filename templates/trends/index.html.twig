@@ -1,22 +1,24 @@
+  
 {% extends 'base.html.twig' %}
 {% block body %}
 <h1>Trends<h1>
+    {% if stats | length > 0 %}
     {% for i in range (0, (stats | length)-1) %}
     {% if stats[i].hide == 0 %}
     <div class="polls-view">
-      <div class="item__title">
-        <p class="item__title__name label">
-          {{ stats[i].title }}
-        </p>
-        <p class="item__title__author footnote terciary">
-          {{ stats[i].numberAnswers }}
-        </p>
+      <div class="item">
+        <div class="item__title">
+          <p class="item__title__name label">
+            {{ stats[i].title }}
+          </p>
+          <p class="item__title__author footnote terciary">
+	    {{ stats[i].numberAnswers }}
+          </p>
+        </div>
+        <div></div>
       </div>
-      <div></div>
-    </div>
     </div>
     {% endif %}
-    {% else %}
-    <p>no records found</p>
-    {% endfor %}
+    {% endfor %}   
+    {% endif %}
     {% endblock %}
