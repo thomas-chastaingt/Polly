@@ -15,7 +15,7 @@ class PollsType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('hide')
+            ->add('hide',null, array('label' => false))
             ->add('country');    
             
             

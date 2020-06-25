@@ -1,4 +1,9 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="button-primary button auth-button">{{ button_label|default('Save') }}</button>
+<p class="footnote secondary poll__instruction">Title:</p>
+{{ form_widget(form.title) }}
+<p class="footnote secondary poll__instruction">Country:</p>
+{{ form_widget(form.country) }}
+<p class="footnote secondary poll__instruction">hide:</p>
+{{ form_widget(form.hide) }}
+<button class="button-primary button auth-button">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
