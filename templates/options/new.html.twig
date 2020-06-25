@@ -17,7 +17,6 @@
         {{ form_end(form) }}
         {% endif %}
         {% for option in poll.options %}
-        <div>{{ poll.id }} <div>
         <div style="background: #F8EBFF; margin-top: 10px; border-radius: 12px 12px 0px 0px;">
             <form method="post" action="{{ path('options_delete', {'id': option.id}) }}"
                 onsubmit="return confirm('Are you sure you want to delete this item?');">

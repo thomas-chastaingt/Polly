@@ -8,7 +8,7 @@
         <h2> Share: </h2>
     </div>
     <div>
-        <input type="text" id="tocopy" value="http://localhost/Polly/public/poll/answers/new" />
+        <input type="text" id="tocopy" value="http://localhost/Polly/public/polls/{{ app.request.get('id') }}/answers" />
     </div>
     <div class="share__icons">
         <div class="material-icons-round" value="copy" data-target="#tocopy" onClick="copying()">
