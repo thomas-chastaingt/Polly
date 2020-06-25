@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Polls;
+use App\Entity\PollAnswers;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
