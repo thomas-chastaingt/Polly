@@ -12,11 +12,7 @@ class ConfirmationController extends AbstractController
      */
     public function index()
     {
-         // deny access unless verified email
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_VERIFIED')) {
-            $this->addFlash("warning", "You must verify your email.");
-            return $this->redirectToRoute('app_login');
-        }
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         return $this->render('confirmation/index.html.twig', [
             'controller_name' => 'ConfirmationController',
         ]);
