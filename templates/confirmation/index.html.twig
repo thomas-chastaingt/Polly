@@ -8,106 +8,106 @@
         <h2> Share: </h2>
     </div>
     <div>
-      <input type="text" id="tocopy" value="http://localhost/Polly/public/poll/answers/new"/>
+        <input type="text" id="tocopy" value="http://localhost/Polly/public/poll/answers/new" />
     </div>
     <div class="share__icons">
-      <div class="material-icons-round" value="copy" data-target="#tocopy" onClick="copying()">
-        link
-      </div>
+        <div class="material-icons-round" value="copy" data-target="#tocopy" onClick="copying()">
+            link
+        </div>
     </div>
-    <div id="snackbar">The link have been copied</div>
+    <div id="snackbar">The link has been copied</div>
 </div>
 <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 <script>
+    var valueInput = document.getElementById("tocopy");
 
-var valueInput = document.getElementById("tocopy");
-function copying() {
-valueInput.select();
-valueInput.setSelectionRange(0, 99999)
-document.execCommand("copy");
-snackbar();
-}
+    function copying() {
+        valueInput.select();
+        valueInput.setSelectionRange(0, 99999)
+        document.execCommand("copy");
+        snackbar();
+    }
 
-function snackbar() {
-  var snackbar = document.getElementById("snackbar");
-  snackbar.className = "show";
-  setTimeout(function(){ snackbar.className = snackbar.className.replace("show", ""); }, 3000);
-}
+    function snackbar() {
+        var snackbar = document.getElementById("snackbar");
+        snackbar.className = "show";
+        setTimeout(function () {
+            snackbar.className = snackbar.className.replace("show", "");
+        }, 3000);
+    }
 </script>
 
 <style>
-#snackbar {
-    visibility: hidden;
-    min-width: 250px;
-    margin-left: -125px;
-    background-color: #af52de;
-    color: #fff;
-    text-align: center;
-    border-radius: 2px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    border-radius: 12px;
-}
-
-
-#snackbar.show {
-    visibility: visible;
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-
-@-webkit-keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
-    }
-
-    to {
+    #snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #af52de;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
         bottom: 30px;
-        opacity: 1;
-    }
-}
-
-@keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
+        border-radius: 12px;
     }
 
-    to {
-        bottom: 30px;
-        opacity: 1;
-    }
-}
 
-@-webkit-keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
+    #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
     }
 
-    to {
-        bottom: 0;
-        opacity: 0;
-    }
-}
 
-@keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
+    @-webkit-keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
     }
 
-    to {
-        bottom: 0;
-        opacity: 0;
+    @keyframes fadein {
+        from {
+            bottom: 0;
+            opacity: 0;
+        }
+
+        to {
+            bottom: 30px;
+            opacity: 1;
+        }
     }
-}
+
+    @-webkit-keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
+
+    @keyframes fadeout {
+        from {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        to {
+            bottom: 0;
+            opacity: 0;
+        }
+    }
 </style>
 {% endblock %}
-
-
