@@ -36,7 +36,7 @@ class Polls
     private $author;
 
     /**
-     * @ORM\OneToMany(targetEntity=Options::class, mappedBy="polls")
+     * @ORM\OneToMany(targetEntity=Options::class, cascade={"persist", "remove"}, mappedBy="polls")
      */
     private $options;
 
@@ -47,7 +47,7 @@ class Polls
     private $country;
 
     /**
-     * @ORM\OneToMany(targetEntity=PollAnswers::class, mappedBy="poll")
+     * @ORM\OneToMany(targetEntity=PollAnswers::class, cascade={"persist", "remove"}, mappedBy="poll")
      */
     private $pollAnswers;
 
@@ -189,7 +189,7 @@ class Polls
 
         return $this;
     }
-    
+
     public function __toString()
     {
         return $this->title;

@@ -39,9 +39,16 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Polls::class, mappedBy="author")
+     * @ORM\OneToMany(targetEntity=Polls::class,  cascade={"persist", "remove"}, mappedBy="author")
      */
     private $polls;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified = false;
+
+
 
     public function __construct()
     {
@@ -64,6 +71,7 @@ class User implements UserInterface
 
         return $this;
     }
+
 
     /**
      * A visual identifier that represents this user.
@@ -160,5 +168,17 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->email;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
     }
 }

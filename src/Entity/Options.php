@@ -31,7 +31,7 @@ class Options
     private $polls;
 
     /**
-     * @ORM\OneToMany(targetEntity=PollAnswers::class, mappedBy="option")
+     * @ORM\OneToMany(targetEntity=PollAnswers::class, cascade={"persist", "remove"}, mappedBy="option")
      */
     private $pollAnswers;
 
