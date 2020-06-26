@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-
+{{ form_start(form) }}
+{{pollAnswers.poll}}
+{{ form_widget(form) }}
+<button class="button-primary button auth-button">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
 
 <div class="poll_view">
