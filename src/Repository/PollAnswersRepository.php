@@ -19,19 +19,19 @@ class PollAnswersRepository extends ServiceEntityRepository
         parent::__construct($registry, PollAnswers::class);
     }
 
-    public function countByNumberAnswers()
+    public function countByNumberAnswersDesc()
     {
         $query = $this->createQueryBuilder('pa')
                       ->select('p.title', 'p.hide', 'COUNT(p.title) as numberAnswers')
                       ->join('pa.poll', 'p')
                       ->groupBy('p.title')
                       ->orderBy('COUNT(p.title)', 'DESC')
+                      ->setMaxResults(5)       
             
             ;
         
         return $query->getQuery()->getArrayResult();
     }
-
     // /**
     //  * @return PollAnswers[] Returns an array of PollAnswers objects
     //  */
@@ -60,4 +60,17 @@ class PollAnswersRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function countByNumberAnswers()
+    {
+        $query = $this->createQueryBuilder('pa')
+                      ->select('p.title', 'p.hide', 'COUNT(p.title) as numberAnswers')
+                      ->join('pa.poll', 'p')
+                      ->groupBy('p.title')
+                      ->orderBy('COUNT(p.title)', 'DESC')
+
+            ;
+
+        return $query->getQuery()->getArrayResult();
+    }
 }
