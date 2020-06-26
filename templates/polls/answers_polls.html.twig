@@ -31,13 +31,13 @@
     </div>
 
     <div class="card analytics_card">
-        <div>
-            <p class="title secondary">Click to share:</p>
-            <div class="material-icons-round" id="link">
-                link
-            </div>
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px ">
+            <p class="title secondary">Click to share:<div class="material-icons-round" id="link">
+                    link
+                </div>
+            </p>
             <input type="text" id="input-uri" />
-
+            <div class="sharethis-inline-share-buttons"></div>
         </div>
         <div class="poll__header">
             <div class="title secondary analytics__title">
@@ -65,7 +65,9 @@
 <div id="snackbar">The link has been copied</div>
 <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
-
+<script type="text/javascript"
+    src="https://platform-api.sharethis.com/js/sharethis.js#property=5ef5bc91b900a200126bbfe5&product=inline-share-buttons"
+    async="async"></script>
 <script>
     //share part
     var input = document.getElementById("input-uri");

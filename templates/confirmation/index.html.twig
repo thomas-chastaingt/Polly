@@ -4,20 +4,22 @@
     <div class="congrats_title">
         <h1> Congrats! Poll completed 🎉 </h1>
     </div>
-    <div class="congrats_share">
-        <h2> Share: </h2>
-    </div>
-    <div>
-        <input type="text" id="tocopy" value="http://localhost/Polly/public/polls/{{ app.request.get('id') }}/answers" />
-    </div>
-    <div class="share__icons">
-        <div class="material-icons-round" value="copy" data-target="#tocopy" onClick="copying()">
-            link
+    <div style="display: flex; margin: 10px;">
+        <input type="text" id="tocopy"
+            value="http://localhost/Polly/public/polls/{{ app.request.get('id') }}/answers" />
+        <div class="share__icons">
+            <div class="material-icons-round" value="copy" data-target="#tocopy" onClick="copying()">
+                link
+            </div>
         </div>
     </div>
+    <div class="sharethis-inline-share-buttons" style="width: 400px;"></div>
     <div id="snackbar">The link has been copied</div>
 </div>
 <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+<script type="text/javascript"
+    src="https://platform-api.sharethis.com/js/sharethis.js#property=5ef5bc91b900a200126bbfe5&product=inline-share-buttons"
+    async="async"></script>
 <script>
     var valueInput = document.getElementById("tocopy");
 
