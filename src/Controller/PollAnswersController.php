@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Repository\OptionsRepository;
 /**
  * @Route("/poll/answers")
  */
@@ -38,10 +38,8 @@ class PollAnswersController extends AbstractController
     public function new(Polls $poll, Request $request): Response
     {
         $pollAnswer = new PollAnswers();
-        $pollOptions = $poll->getOptions();
-        dd($poll->getOptions());
         $pollAnswer->setPoll($poll);
-        $form = $this->createForm(PollAnswersType::class, $pollAnswer);
+        $form = $this->createForm(PollAnswersTypeNew::class, $pollAnswer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

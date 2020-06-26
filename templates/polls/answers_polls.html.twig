@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-
+{{ form_start(form) }}
+{{pollAnswers.poll}}
+{{ form_widget(form) }}
+<button class="button-primary button auth-button">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
 
 <div class="poll_view">
@@ -31,7 +35,8 @@
     </div>
 
     <div class="card analytics_card">
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px ">
+        <div
+            style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px ">
             <p class="title secondary">Click to share:<div class="material-icons-round" id="link">
                     link
                 </div>
@@ -126,7 +131,15 @@
         };
 
         // Send POST request to server
-        console.log(vote);
+        
+        fetch('http://localhost/Polly/public/polls/32/answers/new', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: vote
+        }).then(()=> console.log("hello"));
     }
 
     function cleanOptions() {

@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Options;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use App\Entity\Polls;
 /**
  * @method Options|null find($id, $lockMode = null, $lockVersion = null)
  * @method Options|null findOneBy(array $criteria, array $orderBy = null)
