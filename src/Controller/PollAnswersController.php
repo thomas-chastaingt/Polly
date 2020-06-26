@@ -47,7 +47,7 @@ class PollAnswersController extends AbstractController
             $entityManager->persist($pollAnswer);
             $entityManager->flush();
 
-            return $this->redirectToRoute('poll_answers_index');
+            return $this->redirectToRoute('app_register');
         }
 
         return $this->render('poll_answers/new.html.twig', [
