@@ -22,7 +22,7 @@ class UserController extends AbstractController
     {
         // deny access unless admin role
          if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $this->addFlash("warning", "You must be admin.");
+            $this->addFlash("warning", "You must be admin. ⚠️");
             return $this->redirectToRoute('app_login');
         }
         
@@ -77,7 +77,7 @@ class UserController extends AbstractController
     {
         // deny access unless admin role
          if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $this->addFlash("warning", "You must be admin.");
+            $this->addFlash("warning", "You must be admin. ⚠️");
             return $this->redirectToRoute('app_login');
         }
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {

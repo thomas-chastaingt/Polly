@@ -33,11 +33,14 @@ class PollAnswersController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="poll_answers_new", methods={"GET","POST"})
+     * @Route("/{id}/new", name="poll_answers_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Polls $poll, Request $request): Response
     {
         $pollAnswer = new PollAnswers();
+        $pollOptions = $poll->getOptions();
+        dd($poll->getOptions());
+        $pollAnswer->setPoll($poll);
         $form = $this->createForm(PollAnswersType::class, $pollAnswer);
         $form->handleRequest($request);
 
