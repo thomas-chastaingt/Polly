@@ -1,12 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-{{ form_start(form) }}
-{{pollAnswers.poll}}
-{{ form_widget(form) }}
-<button class="button-primary button auth-button">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
-
+{{ form_start(form) }}
 <div class="poll_view">
     <div class="card">
         <div class="poll__header">
@@ -17,23 +12,18 @@
             <div id="map" class="map"></div>
             <p class="footnote secondary poll__instruction">Department:</p>
             <input class="title department" name="department"></input>
+            {{ form_widget(form.department) }}
             <p class="footnote secondary poll__instruction">Choose your answer:</p>
-            <div class="poll__options">
-                {% for option in options %}
-                <input class="poll__option" value="{{ option.name }}" name="name"></input>
-                {% else %}
-                <div class="poll__option">No option found</div>
-                {% endfor %}
-            </div>
-            <div class="button button-primary poll__button">
+            {{ form_widget(form.option) }}
+            <div class="poll__options"></div>
+            <button class="button button-primary poll__button">
                 <div class="material-icons-round button__icon">
                     how_to_vote
-                </div>
-                Vote
-            </div>
+                </div>{{ button_label|default('Vote') }}
+            </button>
         </form>
     </div>
-
+    {{ form_end(form) }}
     <div class="card analytics_card">
         <div
             style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px ">
@@ -67,6 +57,7 @@
         <div class="poll__empty-container"></div>
     </div>
 </div>
+
 <div id="snackbar">The link has been copied</div>
 <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
@@ -131,7 +122,7 @@
         };
 
         // Send POST request to server
-        
+
         fetch('http://localhost/Polly/public/polls/32/answers/new', {
             method: 'POST',
             headers: {
@@ -139,7 +130,7 @@
                 'Content-Type': 'application/json'
             },
             body: vote
-        }).then(()=> console.log("hello"));
+        }).then(() => console.log("hello"));
     }
 
     function cleanOptions() {
@@ -147,6 +138,10 @@
         for (const option of selectedOptions) {
             option.classList.remove("poll__option-selected");
         }
+    }
+
+    function changeScrollValue() {
+        
     }
 
     function initMap() {
@@ -209,8 +204,15 @@
                     }, {
                         hover: true
                     });
-                    selectedDep = e.features[0].id;
+                    selectedDep = e.features[0].properties.department;
                     departmentIndicator.value = selectedDep;
+                    let scroll = document.getElementById('poll_answers_new_department');
+                    for(let i = 0; i <= scroll.options.length; i++){
+                        let valueItem = scroll.options[i].text;
+                        if( valueItem === selectedDep){
+                            scroll.options[i].selected = true;
+                        }
+                    }
                 }
             });
         });
