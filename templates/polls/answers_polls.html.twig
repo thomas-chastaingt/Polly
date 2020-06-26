@@ -297,7 +297,7 @@
         deps: "https://gist.githubusercontent.com/valaymerick/9690c82d6937015beb61b85a754d84e4/raw/eef0acc7967f26b3e7abf2b4519aebb3d7e9a8c2/departments-fr.geojson",
         coords: [2.3522, 46.8566],
         zoom: 4,
-        initialDep: 75,
+        initialDep: "Paris",
     };
     const pollOptions = document.querySelector(".poll__options").childNodes;
 
@@ -353,7 +353,7 @@
             style: "mapbox://styles/mapbox/streets-v11",
             center: dataset.coords,
             zoom: dataset.zoom,
-            initialDep: 75,
+            initialDep: "",
         });
         let hoveredStateId = null;
 
