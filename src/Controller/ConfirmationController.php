@@ -13,7 +13,7 @@ class ConfirmationController extends AbstractController
     public function index()
     {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_VERIFIED')) {
-            $this->addFlash("warning", "You must verify your email.");
+            $this->addFlash("warning", "You must verify your email");
             return $this->redirectToRoute('app_login');
         }
         return $this->render('confirmation/index.html.twig', [

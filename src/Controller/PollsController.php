@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 use App\Entity\Options;
+use App\Entity\PollAnswers;
 use App\Form\OptionsType;
 use App\Repository\OptionsRepository;
 use App\Entity\Polls;
 use App\Form\PollsType;
+use App\Form\PollAnswersNewType;
 use App\Form\PollsCreateType;
 use App\Repository\PollsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,7 +41,7 @@ class PollsController extends AbstractController
     {
         // deny access unless verified email
          if (!$this->get('security.authorization_checker')->isGranted('ROLE_VERIFIED')) {
-            $this->addFlash("warning", "You must verify your email.");
+            $this->addFlash("warning", "You must verify your email");
             return $this->redirectToRoute('app_login');
         }
         return $this->render('polls/mypolls.html.twig', [
@@ -54,7 +56,7 @@ class PollsController extends AbstractController
     {
         // deny access unless verified email
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_VERIFIED')) {
-            $this->addFlash("warning", "You must verify your email.");
+            $this->addFlash("warning", "You must verify your email");
             return $this->redirectToRoute('app_login');
         }
         $poll = new Polls();
@@ -83,12 +85,29 @@ class PollsController extends AbstractController
     /**
      * @Route("/{id}/answers", name="answers_polls")
      */
-    public function polls_answers(Polls $poll, OptionsRepository $optionsRepository)
+    public function polls_answers(Polls $poll, OptionsRepository $optionsRepository, Request $request): Response
     {
+        $pollAnswers = new PollAnswers();
+        $pollAnswers->setPoll($poll);
+        $form = $this->createForm(PollAnswersNewType::class, $pollAnswers);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+           if($this->getUser()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($pollAnswers);
+                $entityManager->flush();
+            }
+
+            return $this->redirectToRoute('home');
+        }
+
         $options = $optionsRepository->findByPolls($poll);
         return $this->render('polls/answers_polls.html.twig', [
             'options' => $options,
-            'poll' => $poll
+            'poll' => $poll,
+            'pollAnswers' => $pollAnswers,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -101,7 +120,7 @@ class PollsController extends AbstractController
     {
         // deny access unless verified email
          if (!$this->get('security.authorization_checker')->isGranted('ROLE_VERIFIED')) {
-            $this->addFlash("warning", "You must verify your email.");
+            $this->addFlash("warning", "You must verify your email");
             return $this->redirectToRoute('app_login');
         }
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -116,7 +135,7 @@ class PollsController extends AbstractController
     public function edit(Request $request, Polls $poll): Response
     {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_VERIFIED')) {
-            $this->addFlash("warning", "You must verify your email.");
+            $this->addFlash("warning", "You must verify your email");
             return $this->redirectToRoute('app_login');
         }
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');

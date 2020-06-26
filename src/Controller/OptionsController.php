@@ -37,7 +37,7 @@ class OptionsController extends AbstractController
     public function new(Polls $polls, Request $request): Response
     {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_VERIFIED')) {
-            $this->addFlash("warning", "You must verify your email.");
+            $this->addFlash("warning", "You must verify your email");
             return $this->redirectToRoute('app_login');
         }
         $option = new Options();
