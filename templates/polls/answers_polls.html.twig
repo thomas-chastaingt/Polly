@@ -11,7 +11,7 @@
             <p class="footnote secondary poll__instruction">Select your location:</p>
             <div id="map" class="map"></div>
             <p class="footnote secondary poll__instruction">Department:</p>
-            <input class="title department" name="department"></input>
+            <input class="title department" name="department" readonly></input>
             <p class="footnote secondary poll__instruction">Choose your answer:</p>
             {{ form_widget(form.option) }}
             {{ form_widget(form.department) }}
