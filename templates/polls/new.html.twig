@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+<div style="display: flex; flex-direction: column; align-items: center;">
+    <h1>Create a poll ✏️ </h1>
+    <h2>Step 1: Choose the title and country to be surveyed.</h2>
+</div>
 <div class="new-poll_view">
   <div class="card new-poll-card">
     {{ form_start(form) }}
@@ -10,7 +14,7 @@
       <div class="material-icons-round button__icon">
         add_circle
       </div>
-      {{ button_label|default('Create Poll') }}
+      {{ button_label|default('Next') }}
     </button>
     {{ form_end(form) }}
   </div>

@@ -1,18 +1,23 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+<div style="display: flex; justify-content: center;">
+    <h1>My polls</h1>
+</div>
 {% for poll in polls %}
-
 {% if app.user == poll.author %}
 <div class="polls-view">
     <div class="item">
         <div class="item__title">
             <p class="item__title__name label">{{ poll.title }}</p>
-            <p class="item__title__author footnote terciary">{{ poll.dateCreation ? poll.dateCreation|date('Y-m-d H:i:s') : '' }}</p>
+            <p class="item__title__author footnote terciary">
+                {{ poll.dateCreation ? poll.dateCreation|date('Y-m-d H:i:s') : '' }}</p>
         </div>
         <div class="item__actions">
-            <a href="{{ path('polls_edit', {'id': poll.id}) }}"><div class="material-icons-round terciary action">
-                visibility
-            </div></a>
+            <a href="{{ path('polls_edit', {'id': poll.id}) }}">
+                <div class="material-icons-round terciary action">
+                    visibility
+                </div>
+            </a>
         </div>
     </div>
 </div>
@@ -20,4 +25,4 @@
 {% endif %}
 {% endfor %}
 
-{% endblock %} 
+{% endblock %}
