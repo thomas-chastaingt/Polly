@@ -1,24 +1,29 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 <div class="container" style="display: flex; flex-direction: column; align-items: center;">
-        <h1> Congrats! Poll completed 🎉 </h1>
-        <h2>You have completed all the steps, you can now share your survey with your friends.</h2>
-    <div style="display: flex; margin: 10px;">
+    <h1> Congrats! Poll completed 🎉 </h1>
+    <h2>You have completed all the steps, you can now share your survey with your friends.</h2>
+    <div
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px;">
+        <div class="material-icons-round" value="copy" data-target="#tocopy" onClick="copying()">
+            link
+        </div>
         <input type="text" id="tocopy"
             value="http://localhost/Polly/public/polls/{{ app.request.get('id') }}/answers" />
-        <div class="share__icons" st_summary="Yes it's good">
-            <div class="material-icons-round" value="copy" data-target="#tocopy" onClick="copying()">
-                link
-            </div>
+    </div>
+    <div style="display: flex;">
+        <div id="reddit-share" style="margin: 10px;">
+            <img src="../public/styles/images/reddit.svg" alt="The reddit logo" width="30" />
+        </div>
+        <div id="facebook-share" style="margin: 10px;">
+            <img src="../public/styles/images/facebook.svg" alt="The reddit logo" width="30" />
         </div>
     </div>
-    <div class="sharethis-inline-share-buttons" style="width: 400px;"></div>
-    <div id="snackbar">The link has been copied</div>
+</div>
+<div class="sharethis-inline-share-buttons" style="width: 400px;"></div>
+<div id="snackbar">The link has been copied</div>
 </div>
 <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
-<script type="text/javascript"
-    src="https://platform-api.sharethis.com/js/sharethis.js#property=5ef5bc91b900a200126bbfe5&product=inline-share-buttons"
-    async="async"></script>
 <script>
     var valueInput = document.getElementById("tocopy");
 
@@ -35,6 +40,31 @@
         setTimeout(function () {
             snackbar.className = snackbar.className.replace("show", "");
         }, 3000);
+    }
+
+
+    var reddit = document.getElementById("reddit-share");
+    var facebook = document.getElementById("facebook-share");
+    reddit.addEventListener("click", () => shareContent("reddit"), false);
+    facebook.addEventListener("click", () => shareContent("facebook"), false);
+    
+    function shareContent(social) {
+        switch (social) {
+            case "reddit":
+                window.open(
+                    "https://www.reddit.com/submit?title=Repond+a+mon+nouveau+sondage+du+site+Polly+!+Hésite+pas+à+partager+!&url=" +
+                    valueInput.value, '',
+                    'menubar=no, toolbar=no, resizable=yes, scrollbar=yes, height=600, width=600');
+                break;
+            case "facebook":
+                window.open(
+                    "https://www.facebook.com/sharer.php?t=Repond+a+mon+nouveau+sondage+du+site+Polly+!+Hésite+pas+à+partager+!&u=" +
+                    valueInput.value, '',
+                    'menubar=no, toolbar=no, resizable=yes, scrollbar=yes, height=600, width=600');
+                break;
+            default:
+                console.log("error");
+        }
     }
 </script>
 
