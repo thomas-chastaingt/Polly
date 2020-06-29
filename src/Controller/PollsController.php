@@ -99,7 +99,7 @@ class PollsController extends AbstractController
                 $entityManager->flush();
             }
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('trends');
         }
         $options = $optionsRepository->findByPolls($poll);
         return $this->render('polls/answers_polls.html.twig', [
