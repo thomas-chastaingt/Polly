@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="container" style="display: flex; flex-direction: column; align-items: center;">
+<div class="container">
     <h1> Congrats! Poll completed 🎉 </h1>
     <h2>You have completed all the steps, you can now share your survey with your friends.</h2>
     <div
@@ -11,16 +11,15 @@
         <input type="text" id="tocopy"
             value="http://localhost/Polly/public/polls/{{ app.request.get('id') }}/answers" />
     </div>
-    <div style="display: flex;">
-        <div id="reddit-share" style="margin: 10px;">
+    <div class="share-container">
+        <div id="reddit-share" class="icon-share">
             <img src="../public/styles/images/reddit.svg" alt="The reddit logo" width="30" />
         </div>
-        <div id="facebook-share" style="margin: 10px;">
+        <div id="facebook-share">
             <img src="../public/styles/images/facebook.svg" alt="The reddit logo" width="30" />
         </div>
     </div>
 </div>
-<div class="sharethis-inline-share-buttons" style="width: 400px;"></div>
 <div id="snackbar">The link has been copied</div>
 </div>
 <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
