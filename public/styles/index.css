@@ -10,7 +10,7 @@
 @import "polls.css";
 @import "poll.css";
 @import "new_poll.css";
-
+@import "confirm.css";
 
 body {
   background-color: var(--background);

@@ -25,7 +25,8 @@
     </div>
     {{ form_end(form) }}
     <div class="card analytics_card">
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px ">
+        <div
+            style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px ">
             <p class="title secondary">Click to share:<div class="material-icons-round" id="link">
                     link
                 </div>
@@ -51,7 +52,11 @@
         <p class="footnote secondary poll__instruction">Global</p>
         <div class="analytics__global">
             <div>
-                <p class="large-title">124</p>
+                {% set answersCount = 0 %}
+                {% for answer in pollAnswers %}
+                {% set answersCount = answersCount + 1 %}
+                {% endfor %}
+                <p class="large-title"> {{answersCount}}</p>
                 <p class="footnote terciary">Answers</p>
             </div>
             <div>
@@ -59,6 +64,12 @@
                 <p class="footnote terciary">Departments</p>
             </div>
         </div>
+        <p>Stats :</p>
+        {% for answer in pollAnswers %}
+        Réponse : <br>
+        - Option : {{answer.option.name}} <br>
+        - Department : {{answer.department.name}} <br>
+        {% endfor %}
         <p class="footnote secondary poll__instruction">Regional</p>
         <div>
             <div class="color_map">

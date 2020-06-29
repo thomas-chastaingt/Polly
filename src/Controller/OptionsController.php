@@ -109,10 +109,10 @@ class OptionsController extends AbstractController
     public function delete(Request $request, Options $option): Response
     {
         // deny access unless admin role
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $this->addFlash("warning", "You must be admin to access this page.");
-            return $this->redirectToRoute('app_login');
-        }
+        // if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+        //     $this->addFlash("warning", "You must be admin to access this page.");
+        //     return $this->redirectToRoute('app_login');
+        // }
         if ($this->isCsrfTokenValid('delete'.$option->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($option);

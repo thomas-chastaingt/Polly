@@ -10,6 +10,7 @@ use App\Form\PollsType;
 use App\Form\PollAnswersNewType;
 use App\Form\PollsCreateType;
 use App\Repository\PollsRepository;
+use App\Repository\PollAnswersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -85,7 +86,7 @@ class PollsController extends AbstractController
     /**
      * @Route("/{id}/answers", name="answers_polls")
      */
-    public function polls_answers(Polls $poll, OptionsRepository $optionsRepository, Request $request): Response
+    public function polls_answers(Polls $poll, OptionsRepository $optionsRepository, PollAnswersRepository $pollAnswersRepository, Request $request): Response
     {
         $pollAnswers = new PollAnswers();
         $pollAnswers->setPoll($poll);
@@ -99,13 +100,15 @@ class PollsController extends AbstractController
                 $entityManager->flush();
             }
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('trends');;
         }
         $options = $optionsRepository->findByPolls($poll);
+        $pollAnswersRepository = $pollAnswersRepository->findByPoll($poll);
         return $this->render('polls/answers_polls.html.twig', [
             'options' => $options,
             'poll' => $poll,
             'pollAnswers' => $pollAnswers,
+            'pollAnswers' => $pollAnswersRepository,
             'form' => $form->createView(),
         ]);
     }
