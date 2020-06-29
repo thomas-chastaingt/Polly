@@ -2,13 +2,16 @@
 {% block body %}
 <div style="display: flex; flex-direction: column; align-items: center;">
     <h1>Create a poll ✏️ </h1>
-    <h2>Step 2: choose the different response options. (max. 6)</h2>
+    <h2>Step 2: choose the different response options. (min. 2, max. 6)</h2>
 </div>
 <div class="new-poll_view">
     <div class="card new-poll-card">
         <h2>{{poll.title}}</h2>
         {% if poll.options|length == 6 %}
         <p>You reached the maximum amount of options allowed per poll.</p>
+        {% endif %}
+        {% if poll.options|length < 2 %}
+        <p>You need to set at least two options (maximum 6).</p>
         {% endif %}
         {% if poll.options|length < 6 %}
         {{ form_start(form) }}
@@ -36,9 +39,11 @@
         </div>
         <div>
             {% endfor %}
+            {% if poll.options|length >= 2 %}
             <a href="{{ path('confirmation', {'id': poll.id}) }}" style="text-decoration: none;">
                 <div class="button-primary button auth-button">Finish</div>
             </a>
+            {% endif %}
         </div>
     </div>
 
