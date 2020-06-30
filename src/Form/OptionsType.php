@@ -13,7 +13,6 @@ class OptionsType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('polls')
         ;
     }
 
