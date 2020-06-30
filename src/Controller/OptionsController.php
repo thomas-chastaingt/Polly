@@ -96,7 +96,8 @@ class OptionsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('options_index');
+            //return $this->redirectToRoute('options_index');
+           return $this->redirectToRoute('poll_options', ['id' => $option->getPolls()->getId()]); 
         }
 
         return $this->render('options/edit.html.twig', [
