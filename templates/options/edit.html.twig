@@ -1,13 +1,9 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Edit Options{% endblock %}
-
 {% block body %}
-    <h1>Edit Options</h1>
-
-    {{ include('options/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('options_index') }}">back to list</a>
-
-    {{ include('options/_delete_form.html.twig') }}
-{% endblock %}
+<div style="display: flex; justify-content: center;">
+  <h1>Edit Option</h1>
+</div>
+<div class="container"
+  style="width: 360px; margin: auto; background-color: white; padding: 24px; border-radius: 12px; margin-top: 20px; box-shadow: 0 6px 60px 0 rgba(0, 0, 0, 0.15);">
+  {{ include('options/_form.html.twig', {'button_label': 'Update'}) }}
+  {% endblock %}

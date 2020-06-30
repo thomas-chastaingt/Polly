@@ -56,7 +56,7 @@
                 <div id="result">
                     {% for answer in pollAnswers %}
                     <p class="data" data-is-country="{{ answer.department.name }}"></p>
-                    <div class="dataOption" data-is-option="{{ answer.option.name}}"></div>
+                    <div class="dataOption" data-is-option="{{ answer.option.name}}">{{ answer.option.name}}</div>
                     {% set answersCount = answersCount + 1 %}
                     {% endfor %}
                 </div>
@@ -76,8 +76,22 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
     <script>
         //stat part 
-        
-        document.addEventListener('DOMContentLoaded', function () {
+            {# let allResponses = document.getElementById("result");
+            let element = allResponses.querySelectorAll("p");
+            let option = allResponses.querySelectorAll("div");
+            var dataTab = [];
+    
+             for (let i = 0; i <= element.length; i++) {
+                 var isCountry = element[i].dataset.isCountry;
+                 var isOption = option[i].dataset.isOption;
+                 var obj = { [isCountry]:1, [isOption]:1 }
+                 dataTab.push(obj);
+                 for(i=0; i <= dataTab.length; i++){
+                     console.log(dataTab[i]);
+                 }
+             } #}
+             
+        {# document.addEventListener('DOMContentLoaded', function () {
             let allResponses = document.getElementById("result");
             let element = allResponses.querySelectorAll("p");
             var tab = {init: 1};
@@ -95,30 +109,7 @@
 
                 }
             }
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            let allResponses = document.getElementById("result");
-            let element = allResponses.querySelectorAll("p");
-            let option = allResponses.querySelectorAll("div");
-            dataTab = [];
-             for (let i = 0; i <= element.length; i++) {
-                 var isCountry = element[i].dataset.isCountry;
-                 var isOption = option[i].dataset.isOption;
-                 var obj = { [isCountry]:1, [isOption]:1 }
-                 dataTab.push(obj);
-             }
-             
-            
-        });
-
-
-     
-       
-
-
-
-
+        }); #}
 
         //end stat part
 
