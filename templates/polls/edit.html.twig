@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Edit Polls{% endblock %}
-
 {% block body %}
-    <h1>Edit Polls</h1>
+<div style="display: flex; justify-content: center;">
+    <h1>Update poll</h1>
+</div>
+<div class="container"
+     style="width: 360px; margin: auto; background-color: white; padding: 24px; border-radius: 12px; margin-top: 20px; box-shadow: 0 6px 60px 0 rgba(0, 0, 0, 0.15);">
+  {{ include('polls/_form.html.twig', {'button_label': 'Update'}) }}
+  	    <p>
+	      <a href="{{ path('poll_options', {'id': poll.id}) }}">Edit Options</a>
+	    </p>
+</div>
 
-    {{ include('polls/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('polls_index') }}">back to list</a>
-
-    {{ include('polls/_delete_form.html.twig') }}
 {% endblock %}
