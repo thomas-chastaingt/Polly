@@ -51,20 +51,31 @@
         </div>
         <p class="footnote secondary poll__instruction">Global</p>
         <div class="analytics__global">
-            <div>
+            <div class="getDatas" data-is-datas="{{ datas|json_encode|e('html_attr') }}">
                 {% set answersCount = 0 %}
-                <div id="result">
+                <div id="result" class="getResults" data-is-results="{{ results|json_encode|e('html_attr') }}">
                     {% for answer in pollAnswers %}
-                    <p class="data" data-is-country="{{ answer.department.name }}"></p>
-                    <div class="dataOption" data-is-option="{{ answer.option.name}}"></div>
                     {% set answersCount = answersCount + 1 %}
                     {% endfor %}
+
                     {% for type,result in results %}
 
                     {% for key, value in result %}
                     <div>
                         <p>Département: {{ value.name }}</p>
                         <p>Nombre de fois: {{ value.NumberOfTime }}</p>
+                    </div><br>
+                    {% endfor %}
+                    {% endfor %}
+                    {% for type,data in datas %}
+
+                    {% for key, value in data %}
+                    <div>
+                        <p>identifiantd du sondage: {{ value.poll_id }}</p>
+                        <p>Id. de l'option choisis: {{ value.option_id }}</p>
+                        <p>Nom de l'option choisis: {{ value.NameOption }}</p>
+                        <p>Id. du département choisis: {{ value.department_id }}</p>
+                        <p>Nom du département choisis: {{ value.DepartmentName }}</p>
                     </div><br>
                     {% endfor %}
                     {% endfor %}
@@ -84,6 +95,29 @@
     <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
     <script>
+
+
+
+
+    
+
+    //On récupère l'ensemble des données de la table poll answer
+        var getDatas = document.querySelector('.getDatas');
+        var isDatas = getDatas.dataset.isDatas;
+        console.log(isDatas);
+    //On récupère le nombre de vote par département
+        var getResults = document.querySelector('.getResults');
+        isResults = getResults.dataset.isResults;
+        console.log(isResults);
+
+
+
+
+
+
+
+
+
         //share part
         var input = document.getElementById("input-uri");
         var shareUri = document.location.href;

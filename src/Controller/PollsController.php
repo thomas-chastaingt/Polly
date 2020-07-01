@@ -102,6 +102,7 @@ class PollsController extends AbstractController
         $pollAnswersRepository = $pollAnswersRepository->findByPoll($poll);
         $numberAnswer = count($pollAnswersRepository);
         $array = [];
+        $data = [];
         $arrayDepartment = [];
         $deptOrder = array();
             for($i=0; $i < $numberAnswer; $i++) {
@@ -126,7 +127,6 @@ class PollsController extends AbstractController
             for($j=0; $j < $numberOfdept; $j++) {
                 $idDept = $deptOrder[$j];
                 $em = $this->getDoctrine()->getManager();
-
                 //option la plus chois d'un sondage en fonction du département
                 // $RAW_QUERY = "SELECT * FROM poll_answers WHERE poll_id = '".$pollId."' AND department_id = '".$idDept."' GROUP BY option_id 
                 // HAVING COUNT(option_id)=(SELECT MAX(p.eff) FROM (SELECT option_id, COUNT(*) AS eff FROM poll_answers WHERE poll_id= '".$pollId."' 
@@ -157,7 +157,21 @@ class PollsController extends AbstractController
                 $result = $statement->fetchAll();
                 array_push($array,$result);
             }
-            
+
+
+
+            $em2 = $this->getDoctrine()->getManager();
+            $QUERY="SELECT poll_id, option_id, department_id, options.name AS 'NameOption', departments.name AS 'DepartmentName'
+                    FROM poll_answers
+                    LEFT JOIN options ON poll_answers.option_id = options.id
+                    LEFT JOIN departments ON poll_answers.department_id = departments.id
+                WHERE poll_id='".$pollId."' 
+                
+                ";
+            $statement2 = $em2->getConnection()->prepare($QUERY);
+            $statement2->execute();
+            $result2 = $statement2->fetchAll();
+            array_push($data,$result2);
             
         if ($form->isSubmitted() && $form->isValid()) {
            if($this->getUser()) {
@@ -175,6 +189,7 @@ class PollsController extends AbstractController
             'pollAnswers' => $pollAnswers,
             'pollAnswers' => $pollAnswersRepository,
             'results' => $array,
+            'datas' => $data,
             'numberOfDept' => $numberOfdept,
             'form' => $form->createView(),
         ]);
