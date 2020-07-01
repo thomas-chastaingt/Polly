@@ -15,7 +15,13 @@
 	    {{ stats[i].numberAnswers }}
           </p>
         </div>
-        <div></div>
+        <div class="items__actions">
+          <a href="{{ path('answers_polls', {'id': stats[i].id}) }}">
+            <div class="material-icons-round terciary action">
+                visibility
+            </div>
+        </a>
+        </div>
       </div>
     </div>
     {% endif %}
