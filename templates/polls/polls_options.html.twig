@@ -1,19 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 <div style="display: flex; flex-direction: column; align-items: center;">
-    <h1>Edit a poll ✏️ </h1>
-    <h2>Step 2: choose the different response options. (min. 2, max. 6)</h2>
+    <h1>Edit options</h1>
 </div>
 <div class="new-poll_view">
     <div class="card new-poll-card">
-        <h2>{{poll.title}}</h2>
-        {% if options|length == 6 %}
-        <p>You reached the maximum amount of options allowed per poll.</p>
-	{% endif %}
-        {% if options|length < 2 %}
-	{% endif %}			    
-        <p>You need to set at least two options (maximum 6).</p>
-        {% if options|length < 6 %}
         {{ form_start(form) }}
         {{ form_widget(form.name, {'attr': {'placeholder': 'New option...'}}) }}
         <button class="button-primary button auth-button">
@@ -21,8 +12,7 @@
                 add_circle
             </div>{{ button_label|default('Save') }}
         </button>
-        {{ form_end(form)}}
-        {% endif %}
+        {{ form_end(form) }}
         {% for option in options %}
         <div style="background: #F8EBFF; margin-top: 10px; border-radius: 12px 12px 0px 0px;">
             <form method="post" action="{{ path('poll_options_delete', {'id': option.id}) }}"
@@ -30,28 +20,24 @@
                 <div style="margin: auto">{{option.name}}</div>
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ option.id) }}">
+                <a href="{{ path('options_edit', {'id': option.id}) }}" style="margin: auto;">
+                    <div class="material-icons-round terciary action" style="color: #af52de;">
+                        visibility
+                    </div>
+                </a>
                 <button class="btn" style="background: #F8EBFF; border-radius: 12px;">
                     <div class="material-icons-round remove-option-icon" style="color: #af52de">
                         remove_circle
                     </div>
                 </button>
             </form>
-	    <p>
-	      <a href="{{ path('options_edit', {'id': option.id}) }}">edit</a>
-	    </p>
         </div>
-        <div>
-          {% endfor %}
-	  {#{% if options|length >= 2 %}
-            <a href="{{ path('confirmation', {'id': poll.id}) }}" style="text-decoration: none;">
-                <div class="button auth-button">Finish</div>
+        {% endfor %}
+	{% if poll.options|length >= 2 %}
+            <a href="{{ path('polls_user') }}" style="text-decoration: none;">
+                <div class="button-primary button auth-button">Finish</div>
             </a>
-	    {% endif %}#}
-	    <p>
-	      <a href="{{ path('polls_edit', {'id': poll.id}) }}">Come Back</a>
-	    </p>
-        </div>
+	    {% endif %}
     </div>
 
     {% endblock %}
- 

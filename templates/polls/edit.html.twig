@@ -4,11 +4,21 @@
     <h1>Update poll</h1>
 </div>
 <div class="container"
-     style="width: 360px; margin: auto; background-color: white; padding: 24px; border-radius: 12px; margin-top: 20px; box-shadow: 0 6px 60px 0 rgba(0, 0, 0, 0.15);">
-  {{ include('polls/_form.html.twig', {'button_label': 'Update'}) }}
-  	    <p>
-	      <a href="{{ path('poll_options', {'id': poll.id}) }}">Edit Options</a>
-	    </p>
+    style="width: 360px; margin: auto; background-color: white; padding: 24px; border-radius: 12px; margin-top: 20px; box-shadow: 0 6px 60px 0 rgba(0, 0, 0, 0.15);">
+    {{ form_start(form) }}
+    <p class="footnote secondary poll__instruction">Title:</p>
+    {{ form_widget(form.title) }}
+    <p class="footnote secondary poll__instruction">Country:</p>
+    {{ form_widget(form.country) }}
+    <p class="footnote secondary poll__instruction">hide:</p>
+    {{ form_widget(form.hide) }}
+    <button class="button-primary button auth-button">{{ button_label|default('Save') }}</button>
+    <a class="button-primary button auth-button" href="{{ path('poll_options', {'id': poll.id}) }}">
+        Edit options
+    </a>
+    {{ form_end(form) }}
+    
+
 </div>
 
 {% endblock %}
