@@ -11,6 +11,11 @@
             <p class="item__title__author footnote terciary">{{ poll.dateCreation ? poll.dateCreation|date('Y-m-d H:i:s') : '' }}</p>
         </div>
         <div class="item__actions">
+            <a href="{{ path('answers_polls', {'id': poll.id}) }}">
+                <div class="material-icons-round terciary action">
+                    visibility
+                </div>
+            </a>
             <a href="{{ path('polls_edit', {'id': poll.id}) }}"><div class="material-icons-round terciary action">
                 edit
             </div></a>
