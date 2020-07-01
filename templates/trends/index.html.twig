@@ -1,24 +1,29 @@
-  
-{% extends 'base.html.twig' %}
-{% block body %}
-<h1>Trends<h1>
-    {% if stats | length > 0 %}
-    {% for i in range (0, (stats | length)-1) %}
-    {% if stats[i].hide == 0 %}
-    <div class="polls-view">
-      <div class="item">
-        <div class="item__title">
-          <p class="item__title__name label">
-            {{ stats[i].title }}
-          </p>
-          <p class="item__title__author footnote terciary">
-	    {{ stats[i].numberAnswers }}
-          </p>
+  {% extends 'base.html.twig' %}
+  {% block body %}
+  <h1>Trends<h1>
+      {% if stats | length > 0 %}
+      {% for i in range (0, (stats | length)-1) %}
+      {% if stats[i].hide == 0 %}
+      <div class="polls-view">
+        <div class="item">
+          <div class="item__title">
+            <p class="item__title__name label">
+              {{ stats[i].title }}
+            </p>
+            <p class="item__title__author footnote terciary">
+              {{ stats[i].numberAnswers }}
+            </p>
+          </div>
+          <div class="items__actions">
+            <a href="{{ path('answers_polls', {'id': stats[i].id}) }}">
+              <div class="material-icons-round terciary action">
+                visibility
+              </div>
+            </a>
+          </div>
         </div>
-        <div></div>
       </div>
-    </div>
-    {% endif %}
-    {% endfor %}   
-    {% endif %}
-    {% endblock %}
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      {% endblock %}

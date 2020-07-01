@@ -8,19 +8,27 @@
     <div class="item">
         <div class="item__title">
             <p class="item__title__name label">{{ poll.title}}</p>
-            <p class="item__title__author footnote terciary">{{ poll.dateCreation ? poll.dateCreation|date('Y-m-d H:i:s') : '' }}</p>
+            <p class="item__title__author footnote terciary">
+                {{ poll.dateCreation ? poll.dateCreation|date('Y-m-d H:i:s') : '' }}</p>
         </div>
         <div class="item__actions">
-            <a href="{{ path('polls_edit', {'id': poll.id}) }}"><div class="material-icons-round terciary action">
-                edit
-            </div></a>
+            <a href="{{ path('answers_polls', {'id': poll.id}) }}">
+                <div class="material-icons-round terciary action">
+                    visibility
+                </div>
+            </a>
+            <a href="{{ path('polls_edit', {'id': poll.id}) }}">
+                <div class="material-icons-round terciary action">
+                    edit
+                </div>
+            </a>
             <a href="{{ path('polls_delete', {'id': poll.id}) }}"><span class="material-icons-round terciary action">
-                delete_forever
-            </span></a>
+                    delete_forever
+                </span></a>
         </div>
     </div>
 </div>
 {% else %}
-    <p>no records found</p>
+<p>no records found</p>
 {% endfor %}
 {% endblock %}
