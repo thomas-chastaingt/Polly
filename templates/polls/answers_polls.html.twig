@@ -7,6 +7,17 @@
         <div class="poll__header">
             <p class="title">{{ poll.title }}</p>
         </div>
+        {% if app.user %}
+            {% if app.user.id == poll.author.id %}
+                <p>Hide this poll : 
+                    <a href="{{ path('polls_edit', {'id': poll.id}) }}">
+                        <div class="material-icons-round terciary action">
+                            visibility
+                        </div>
+                    </a>
+                </p>
+            {% endif %}
+        {% endif %}
         <form method="POST">
             <p class="footnote secondary poll__instruction">Select your location:</p>
             <div id="map" class="map"></div>
