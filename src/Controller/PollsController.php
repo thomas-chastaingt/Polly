@@ -100,6 +100,8 @@ class PollsController extends AbstractController
         $pollId =$poll->getId();
         $options = $optionsRepository->findByPolls($poll);
         $pollAnswersRepository = $pollAnswersRepository->findByPoll($poll);
+
+
         $numberAnswer = count($pollAnswersRepository);
         $array = [];
         $data = [];
