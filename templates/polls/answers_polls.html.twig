@@ -53,33 +53,11 @@
         <div class="analytics__global">
             <div class="getDatas" data-is-datas="{{ datas|json_encode|e('html_attr') }}">
                 {% set answersCount = 0 %}
-                <div id="result" class="getResults" data-is-results="{{ results|json_encode|e('html_attr') }}">
+                <div class="getResults" data-is-results="{{ results|json_encode|e('html_attr') }}"></div>
                     {% for answer in pollAnswers %}
                     {% set answersCount = answersCount + 1 %}
                     {% endfor %}
-
-                    {% for type,result in results %}
-
-                    {% for key, value in result %}
-                    <div>
-                        <p>Département: {{ value.name }}</p>
-                        <p>Nombre de fois: {{ value.NumberOfTime }}</p>
-                    </div><br>
-                    {% endfor %}
-                    {% endfor %}
-                    {% for type,data in datas %}
-
-                    {% for key, value in data %}
-                    <div>
-                        <p>identifiantd du sondage: {{ value.poll_id }}</p>
-                        <p>Id. de l'option choisis: {{ value.option_id }}</p>
-                        <p>Nom de l'option choisis: {{ value.NameOption }}</p>
-                        <p>Id. du département choisis: {{ value.department_id }}</p>
-                        <p>Nom du département choisis: {{ value.DepartmentName }}</p>
-                    </div><br>
-                    {% endfor %}
-                    {% endfor %}
-                </div>
+                
                 <p class="large-title"> {{answersCount ? answersCount : 0}}</p>
                 <p class="footnote terciary">Answers</p>
                 </p>
@@ -99,7 +77,7 @@
 
 
 
-    
+
 
     //On récupère l'ensemble des données de la table poll answer
         var getDatas = document.querySelector('.getDatas');
