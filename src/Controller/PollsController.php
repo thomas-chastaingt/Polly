@@ -95,8 +95,6 @@ class PollsController extends AbstractController
         $pollAnswers->setPoll($poll);
         $form = $this->createForm(PollAnswersNewType::class, $pollAnswers);
         $form->handleRequest($request);
-
-        
         $pollId =$poll->getId();
         $options = $optionsRepository->findByPolls($poll);
         $pollAnswersRepository = $pollAnswersRepository->findByPoll($poll);
@@ -176,11 +174,11 @@ class PollsController extends AbstractController
             array_push($data,$result2);
             
         if ($form->isSubmitted() && $form->isValid()) {
-           if($this->getUser()) {
+        //    if($this->getUser()) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($pollAnswers);
                 $entityManager->flush();
-            }
+        
 
             return $this->redirectToRoute('trends');
         }
