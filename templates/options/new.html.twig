@@ -9,10 +9,10 @@
         <h2>{{poll.title}}</h2>
         {% if poll.options|length == 6 %}
         <p>You reached the maximum amount of options allowed per poll.</p>
-	{% endif %}
+        {% endif %}
         {% if poll.options|length < 2 %}
-	{% endif %}			    
         <p>You need to set at least two options (maximum 6).</p>
+        {% endif %}
         {% if poll.options|length < 6 %}
         {{ form_start(form) }}
         {{ form_widget(form.name, {'attr': {'placeholder': 'New option...'}}) }}
@@ -38,12 +38,12 @@
             </form>
         </div>
         <div>
-          {% endfor %}
-	  {% if poll.options|length >= 2 %}
+            {% endfor %}
+            {% if poll.options|length >= 2 %}
             <a href="{{ path('confirmation', {'id': poll.id}) }}" style="text-decoration: none;">
                 <div class="button-primary button auth-button">Finish</div>
             </a>
-	    {% endif %}
+            {% endif %}
         </div>
     </div>
 
