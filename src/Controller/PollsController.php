@@ -12,6 +12,8 @@ use App\Form\PollsCreateType;
 use App\Form\OptionsTypeNew;
 use App\Repository\PollsRepository;
 use App\Repository\PollAnswersRepository;
+use App\Entity\Departments;
+use App\Repository\DepartmentsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -87,13 +89,69 @@ class PollsController extends AbstractController
     /**
      * @Route("/{id}/answers", name="answers_polls")
      */
-    public function polls_answers(Polls $poll, OptionsRepository $optionsRepository, PollAnswersRepository $pollAnswersRepository, Request $request): Response
+    public function polls_answers(Polls $poll, OptionsRepository $optionsRepository, PollAnswersRepository $pollAnswersRepository, DepartmentsRepository $departmentsRepository, Request $request): Response
     {
         $pollAnswers = new PollAnswers();
         $pollAnswers->setPoll($poll);
         $form = $this->createForm(PollAnswersNewType::class, $pollAnswers);
         $form->handleRequest($request);
 
+        
+        $pollId =$poll->getId();
+        $options = $optionsRepository->findByPolls($poll);
+        $pollAnswersRepository = $pollAnswersRepository->findByPoll($poll);
+        $numberAnswer = count($pollAnswersRepository);
+        $array = [];
+        $arrayDepartment = [];
+        $deptOrder = array();
+            for($i=0; $i < $numberAnswer; $i++) {
+                $departmentId = $pollAnswersRepository[$i]->getDepartment()->getId();
+                array_push($arrayDepartment, $departmentId);
+                
+            }
+            
+           
+            
+            $sizeOfArrayDepartement = count($arrayDepartment);
+            for ($k = 0; $k<$sizeOfArrayDepartement; $k++) {
+                if(in_array($arrayDepartment[$k], $deptOrder, true)) {
+                    
+                }else {
+                    array_push($deptOrder, $arrayDepartment[$k]);
+                }
+            }
+         
+            $numberOfdept = count($deptOrder);
+            
+            for($j=0; $j < $numberOfdept; $j++) {
+                $idDept = $deptOrder[$j];
+                $em = $this->getDoctrine()->getManager();
+
+                //option la plus chois d'un sondage en fonction du département
+                // $RAW_QUERY = "SELECT * FROM poll_answers WHERE poll_id = '".$pollId."' AND department_id = '".$idDept."' GROUP BY option_id 
+                // HAVING COUNT(option_id)=(SELECT MAX(p.eff) FROM (SELECT option_id, COUNT(*) AS eff FROM poll_answers WHERE poll_id= '".$pollId."' 
+                // AND `department_id`= '".$idDept."' GROUP BY option_id) AS p)";
+
+                //option avec leurs effectifs dans un départment
+                $RAW_QUERY = "SELECT options.name AS 'OptionName', departments.name AS 'DepartmentName', COUNT(*) AS 'NumberOfTime' 
+                FROM poll_answers
+                LEFT JOIN options ON poll_answers.option_id = options.id
+                LEFT JOIN departments ON poll_answers.department_id = departments.id
+                WHERE poll_id='".$pollId."' 
+                AND department_id='".$idDept."' 
+                GROUP BY option_id";
+
+                //effectif max
+                // $RAW_QUERY = "SELECT MAX(p.eff) FROM (SELECT option_id,COUNT(*) AS eff FROM poll_answers 
+                // WHERE poll_id='".$pollId."' AND `department_id`='".$idDept."' GROUP BY option_id) AS p";
+                
+                $statement = $em->getConnection()->prepare($RAW_QUERY);
+                $statement->execute();
+                $result = $statement->fetchAll();
+                array_push($array,$result);
+            }
+
+            
         if ($form->isSubmitted() && $form->isValid()) {
            if($this->getUser()) {
                 $entityManager = $this->getDoctrine()->getManager();
@@ -103,13 +161,14 @@ class PollsController extends AbstractController
 
             return $this->redirectToRoute('trends');
         }
-        $options = $optionsRepository->findByPolls($poll);
-        $pollAnswersRepository = $pollAnswersRepository->findByPoll($poll);
+        
         return $this->render('polls/answers_polls.html.twig', [
             'options' => $options,
             'poll' => $poll,
             'pollAnswers' => $pollAnswers,
             'pollAnswers' => $pollAnswersRepository,
+            'results' => $array,
+            'numberOfDept' => $numberOfdept,
             'form' => $form->createView(),
         ]);
     }
