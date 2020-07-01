@@ -60,13 +60,12 @@
                     {% set answersCount = answersCount + 1 %}
                     {% endfor %}
                     {% for type,result in results %}
-                    
+
                     {% for key, value in result %}
                     <div>
-                        <p>Option: {{ value.OptionName }}</p>
-                        <p>Département: {{ value.DepartmentName }}</p>
+                        <p>Département: {{ value.name }}</p>
                         <p>Nombre de fois: {{ value.NumberOfTime }}</p>
-                    </div>
+                    </div><br>
                     {% endfor %}
                     {% endfor %}
                 </div>

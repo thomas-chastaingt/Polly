@@ -133,24 +133,31 @@ class PollsController extends AbstractController
                 // AND `department_id`= '".$idDept."' GROUP BY option_id) AS p)";
 
                 //option avec leurs effectifs dans un départment
-                $RAW_QUERY = "SELECT options.name AS 'OptionName', departments.name AS 'DepartmentName', COUNT(*) AS 'NumberOfTime' 
-                FROM poll_answers
-                LEFT JOIN options ON poll_answers.option_id = options.id
-                LEFT JOIN departments ON poll_answers.department_id = departments.id
-                WHERE poll_id='".$pollId."' 
-                AND department_id='".$idDept."' 
-                GROUP BY option_id";
+                // $RAW_QUERY = "SELECT options.name AS 'OptionName', departments.name AS 'DepartmentName', COUNT(*) AS 'NumberOfTime' 
+                // FROM poll_answers
+                // LEFT JOIN options ON poll_answers.option_id = options.id
+                // LEFT JOIN departments ON poll_answers.department_id = departments.id
+                // WHERE poll_id='".$pollId."' 
+                // AND department_id='".$idDept."' 
+                // GROUP BY option_id";
 
                 //effectif max
                 // $RAW_QUERY = "SELECT MAX(p.eff) FROM (SELECT option_id,COUNT(*) AS eff FROM poll_answers 
                 // WHERE poll_id='".$pollId."' AND `department_id`='".$idDept."' GROUP BY option_id) AS p";
                 
+                $RAW_QUERY = "SELECT departments.name, COUNT(*) AS 'NumberOfTime' 
+                FROM poll_answers
+                LEFT JOIN departments ON poll_answers.department_id = departments.id
+                WHERE poll_id='".$pollId."' 
+                AND department_id='".$idDept."' 
+                ";
+
                 $statement = $em->getConnection()->prepare($RAW_QUERY);
                 $statement->execute();
                 $result = $statement->fetchAll();
                 array_push($array,$result);
             }
-
+            
             
         if ($form->isSubmitted() && $form->isValid()) {
            if($this->getUser()) {
