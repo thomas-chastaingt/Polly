@@ -11,7 +11,7 @@ use App\Form\PollAnswersNewType;
 use App\Form\PollsCreateType;
 use App\Form\OptionsTypeNew;
 use App\Repository\PollsRepository;
-use App\Repository\PollsAnswersRepository;
+use App\Repository\PollAnswersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
