@@ -1,12 +1,26 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+{% if poll.hide %}
+    <p>This poll has been hidden.</p>
+{% else %}
 {{ form_start(form) }}
 <div class="poll_view">
     <div class="card">
         <div class="poll__header">
             <p class="title">{{ poll.title }}</p>
         </div>
+        {% if app.user %}
+            {% if app.user.id == poll.author.id %}
+                <p>Hide this poll : 
+                    <a href="{{ path('polls_edit', {'id': poll.id}) }}">
+                        <div class="material-icons-round terciary action">
+                            visibility
+                        </div>
+                    </a>
+                </p>
+            {% endif %}
+        {% endif %}
         <form method="POST">
             <p class="footnote secondary poll__instruction">Select your location:</p>
             <div id="map" class="map"></div>
@@ -54,9 +68,9 @@
             <div class="getDatas" data-is-datas="{{ datas|json_encode|e('html_attr') }}">
                 {% set answersCount = 0 %}
                 <div class="getResults" data-is-results="{{ results|json_encode|e('html_attr') }}"></div>
-                    {% for answer in pollAnswers %}
-                    {% set answersCount = answersCount + 1 %}
-                    {% endfor %}
+                {% for answer in pollAnswers %}
+                {% set answersCount = answersCount + 1 %}
+                {% endfor %}
                 
                 <p class="large-title"> {{answersCount ? answersCount : 0}}</p>
                 <p class="footnote terciary">Answers</p>
@@ -70,6 +84,7 @@
         </div>
     </div>
     <div id="snackbar">The link has been copied</div>
+    {% endif %}
     <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
     <script>

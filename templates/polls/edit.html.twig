@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+{% if app.user.id == poll.author.id %}
 <div style="display: flex; justify-content: center;">
     <h1>Update poll</h1>
 </div>
@@ -20,5 +21,7 @@
     
 
 </div>
-
+{% else %}
+    <p>You aren't allowed to edit that poll.</p>
+{% endif %}
 {% endblock %}

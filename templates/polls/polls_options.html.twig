@@ -20,19 +20,18 @@
                 <div style="margin: auto">{{option.name}}</div>
                 <input type="hidden" name="_method" value="DELETE">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ option.id) }}">
-                <a href="{{ path('options_edit', {'id': option.id}) }}" style="margin: auto;">
-                    <div class="material-icons-round terciary action" style="color: #af52de;">
-                        visibility
-                    </div>
-                </a>
                 <button class="btn" style="background: #F8EBFF; border-radius: 12px;">
                     <div class="material-icons-round remove-option-icon" style="color: #af52de">
                         remove_circle
                     </div>
                 </button>
+
             </form>
         </div>
         {% endfor %}
+        <a href="{{ path('polls_user') }}" class="button-primary button auth-button">
+            Finish
+        </a>
     </div>
 
     {% endblock %}
