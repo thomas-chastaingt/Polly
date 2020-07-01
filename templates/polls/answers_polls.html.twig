@@ -1,12 +1,24 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+{% if poll.hide %}
+    <p>This poll has been hidden.</p>
+{% else %}
 {{ form_start(form) }}
 <div class="poll_view">
     <div class="card">
         <div class="poll__header">
             <p class="title">{{ poll.title }}</p>
         </div>
+        {% if app.user.id == poll.author.id %}
+            <p>Hide this poll : 
+                <a href="{{ path('polls_edit', {'id': poll.id}) }}">
+                    <div class="material-icons-round terciary action">
+                        visibility
+                    </div>
+                </a>
+            </p>
+        {% endif %}
         <form method="POST">
             <p class="footnote secondary poll__instruction">Select your location:</p>
             <div id="map" class="map"></div>
@@ -71,27 +83,14 @@
             <p class="footnote secondary poll__instruction">Regional</p>
         </div>
     </div>
+{% endif %}
     <div id="snackbar">The link has been copied</div>
     <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
     <script>
         //stat part 
-            {# let allResponses = document.getElementById("result");
-            let element = allResponses.querySelectorAll("p");
-            let option = allResponses.querySelectorAll("div");
-            var dataTab = [];
-    
-             for (let i = 0; i <= element.length; i++) {
-                 var isCountry = element[i].dataset.isCountry;
-                 var isOption = option[i].dataset.isOption;
-                 var obj = { [isCountry]:1, [isOption]:1 }
-                 dataTab.push(obj);
-                 for(i=0; i <= dataTab.length; i++){
-                     console.log(dataTab[i]);
-                 }
-             } #}
-             
-        {# document.addEventListener('DOMContentLoaded', function () {
+        
+        document.addEventListener('DOMContentLoaded', function () {
             let allResponses = document.getElementById("result");
             let element = allResponses.querySelectorAll("p");
             var tab = {init: 1};
@@ -109,7 +108,30 @@
 
                 }
             }
-        }); #}
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let allResponses = document.getElementById("result");
+            let element = allResponses.querySelectorAll("p");
+            let option = allResponses.querySelectorAll("div");
+            dataTab = [];
+             for (let i = 0; i <= element.length; i++) {
+                 var isCountry = element[i].dataset.isCountry;
+                 var isOption = option[i].dataset.isOption;
+                 var obj = { [isCountry]:1, [isOption]:1 }
+                 dataTab.push(obj);
+             }
+             
+            
+        });
+
+
+     
+       
+
+
+
+
 
         //end stat part
 

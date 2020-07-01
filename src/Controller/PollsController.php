@@ -161,8 +161,8 @@ class PollsController extends AbstractController
     public function delete(Request $request, Polls $poll): Response
     {
         // deny access unless admin role
-         if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $this->addFlash("warning", "You must be admin.");
+         if (!$this->get('security.authorization_checker')->isGranted('ROLE_VERIFIED')) {
+            $this->addFlash("warning", "You must verify your email.");
             return $this->redirectToRoute('app_login');
         }
         if ($this->isCsrfTokenValid('delete'.$poll->getId(), $request->request->get('_token'))) {
@@ -171,7 +171,7 @@ class PollsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('polls_index');
+        return $this->redirectToRoute('trends');
     }
 
     /**
