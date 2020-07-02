@@ -91,34 +91,17 @@
     <script>
     mapboxgl.accessToken =
         "pk.eyJ1IjoidmFsYXltZXJpY2siLCJhIjoiY2pyZmoxZWE0MHcxazQ5cDh3cWl1d3Q3aSJ9.c5JVdraGeQEgNaEZR40Bdw";
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
     //On récupère l'ensemble des données de la table poll answer
     const getDatas = document.querySelector('.getDatas');
     const isDatas = getDatas.dataset.isDatas;
     //On récupère le nombre de vote par département
     const getResults = document.querySelector('.getResults');
     const votesPerDep = getResults.dataset.isResults;
-<<<<<<< HEAD
-=======
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
     //share part
     var input = document.getElementById("input-uri");
     var shareUri = document.location.href;
     input.value = shareUri;
     document.getElementById("link").addEventListener("click", copying);
-<<<<<<< HEAD
-=======
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
     function copying() {
         var inputUri = document.getElementById("input-uri");
         inputUri.select();
@@ -126,10 +109,6 @@
         document.execCommand("copy");
         snackbar();
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
     function snackbar() {
         var snackbar = document.getElementById("snackbar");
         snackbar.className = "show";
@@ -137,18 +116,10 @@
             snackbar.className = snackbar.className.replace("show", "");
         }, 3000);
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
     var reddit = document.getElementById("reddit-share");
     var facebook = document.getElementById("facebook-share");
     reddit.addEventListener("click", () => shareContent("reddit"), false);
     facebook.addEventListener("click", () => shareContent("facebook"), false);
-<<<<<<< HEAD
-=======
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
     function shareContent(social) {
         switch (social) {
             case "reddit":
@@ -168,15 +139,8 @@
         }
     }
     //end share part
-<<<<<<< HEAD
     const submitButton = document.querySelector(".poll__button");
     const departmentIndicator = document.querySelector(".department");
-=======
-
-    const submitButton = document.querySelector(".poll__button");
-    const departmentIndicator = document.querySelector(".department");
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
     // Dataset of the map. Updated according to the poll country
     const dataset = {
         deps: "https://gist.githubusercontent.com/valaymerick/9690c82d6937015beb61b85a754d84e4/raw/eef0acc7967f26b3e7abf2b4519aebb3d7e9a8c2/departments-fr.geojson",
@@ -185,15 +149,8 @@
         initialDep: "Paris",
     };
     const pollOptions = document.querySelector(".poll__options").childNodes;
-<<<<<<< HEAD
     submitButton.addEventListener("click", handleVote);
     departmentIndicator.value = dataset.initialDep;
-=======
-
-    submitButton.addEventListener("click", handleVote);
-    departmentIndicator.value = dataset.initialDep;
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
     // Add events listeners to each option node
     for (const option of pollOptions) {
         option.addEventListener("click", function (event) {
@@ -201,29 +158,15 @@
             option.classList.add("poll__option-selected");
         });
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
     // Handle click events on the "vote" button
     function handleVote(e) {
         selectedAnswer = document.querySelector(".poll__option-selected")
             .value;
-<<<<<<< HEAD
-=======
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
         const vote = {
             selectedAnswer,
             selectedDep: departmentIndicator.value,
         };
-<<<<<<< HEAD
         // Send POST request to server
-=======
-
-        // Send POST request to server
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
         fetch('http://localhost/Polly/public/polls/32/answers/new', {
             method: 'POST',
             headers: {
@@ -233,10 +176,6 @@
             body: vote
         }).then(() => console.log("hello"));
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
     function cleanOptions() {
         const selectedOptions = document.querySelectorAll(".poll__option-selected");
         for (const option of selectedOptions) {
@@ -244,10 +183,6 @@
         }
     }
     
-<<<<<<< HEAD
-=======
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
     async function initMap() {
         const map = new mapboxgl.Map({
             container: "map",
@@ -257,20 +192,11 @@
             initialDep: dataset.initialDep,
         });
         let hoveredStateId = null;
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
         map.on("load", function () {
             map.addSource("states", {
                 type: "geojson",
                 data: dataset.deps,
             });
-<<<<<<< HEAD
-=======
-
->>>>>>> 22344c7e34be72674ac3b5f2b4c797fcf4cb06a4
             map.addLayer({
                 id: "state-fills",
                 type: "fill",
