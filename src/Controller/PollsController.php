@@ -145,7 +145,7 @@ class PollsController extends AbstractController
                 // $RAW_QUERY = "SELECT MAX(p.eff) FROM (SELECT option_id,COUNT(*) AS eff FROM poll_answers 
                 // WHERE poll_id='".$pollId."' AND `department_id`='".$idDept."' GROUP BY option_id) AS p";
                 
-                $RAW_QUERY = "SELECT departments.name, COUNT(*) AS 'NumberOfTime' 
+                $RAW_QUERY = "SELECT departments.name, departments.code,  COUNT(*) AS 'votes' 
                 FROM poll_answers
                 LEFT JOIN departments ON poll_answers.department_id = departments.id
                 WHERE poll_id='".$pollId."' 

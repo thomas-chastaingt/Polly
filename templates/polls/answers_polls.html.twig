@@ -80,232 +80,287 @@
                     <p class="footnote terciary">Departments</p>
                 </div>
             </div>
-            <p class="footnote secondary poll__instruction">Regional</p>
         </div>
+        <p class="footnote secondary poll__instruction">Regional</p>
+        <div class="map" id="votes-map"></div>
     </div>
     <div id="snackbar">The link has been copied</div>
     {% endif %}
     <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
     <script>
-
-
-
-
-
-
+    mapboxgl.accessToken =
+        "pk.eyJ1IjoidmFsYXltZXJpY2siLCJhIjoiY2pyZmoxZWE0MHcxazQ5cDh3cWl1d3Q3aSJ9.c5JVdraGeQEgNaEZR40Bdw";
     //On récupère l'ensemble des données de la table poll answer
-        var getDatas = document.querySelector('.getDatas');
-        var isDatas = getDatas.dataset.isDatas;
-        console.log(isDatas);
+    const getDatas = document.querySelector('.getDatas');
+    const isDatas = getDatas.dataset.isDatas;
     //On récupère le nombre de vote par département
-        var getResults = document.querySelector('.getResults');
-        isResults = getResults.dataset.isResults;
-        console.log(isResults);
-
-
-
-
-
-
-
-
-
-        //share part
-        var input = document.getElementById("input-uri");
-        var shareUri = document.location.href;
-        input.value = shareUri;
-        document.getElementById("link").addEventListener("click", copying);
-
-        function copying() {
-            var inputUri = document.getElementById("input-uri");
-            inputUri.select();
-            inputUri.setSelectionRange(0, 99999)
-            document.execCommand("copy");
-            snackbar();
+    const getResults = document.querySelector('.getResults');
+    const votesPerDep = getResults.dataset.isResults;
+    //share part
+    var input = document.getElementById("input-uri");
+    var shareUri = document.location.href;
+    input.value = shareUri;
+    document.getElementById("link").addEventListener("click", copying);
+    function copying() {
+        var inputUri = document.getElementById("input-uri");
+        inputUri.select();
+        inputUri.setSelectionRange(0, 99999)
+        document.execCommand("copy");
+        snackbar();
+    }
+    function snackbar() {
+        var snackbar = document.getElementById("snackbar");
+        snackbar.className = "show";
+        setTimeout(function () {
+            snackbar.className = snackbar.className.replace("show", "");
+        }, 3000);
+    }
+    var reddit = document.getElementById("reddit-share");
+    var facebook = document.getElementById("facebook-share");
+    reddit.addEventListener("click", () => shareContent("reddit"), false);
+    facebook.addEventListener("click", () => shareContent("facebook"), false);
+    function shareContent(social) {
+        switch (social) {
+            case "reddit":
+                window.open(
+                    "https://www.reddit.com/submit?title=Repond+a+mon+nouveau+sondage+du+site+Polly+!+Hésite+pas+à+partager+!&url=" +
+                    shareUri, '',
+                    'menubar=no, toolbar=no, resizable=yes, scrollbar=yes, height=600, width=600');
+                break;
+            case "facebook":
+                window.open(
+                    "https://www.facebook.com/sharer.php?t=Repond+a+mon+nouveau+sondage+du+site+Polly+!+Hésite+pas+à+partager+!&u=" +
+                    shareUri, '',
+                    'menubar=no, toolbar=no, resizable=yes, scrollbar=yes, height=600, width=600');
+                break;
+            default:
+                console.log("error");
         }
-
-        function snackbar() {
-            var snackbar = document.getElementById("snackbar");
-            snackbar.className = "show";
-            setTimeout(function () {
-                snackbar.className = snackbar.className.replace("show", "");
-            }, 3000);
-        }
-
-        var reddit = document.getElementById("reddit-share");
-        var facebook = document.getElementById("facebook-share");
-        reddit.addEventListener("click", () => shareContent("reddit"), false);
-        facebook.addEventListener("click", () => shareContent("facebook"), false);
-
-        function shareContent(social) {
-            switch (social) {
-                case "reddit":
-                    window.open(
-                        "https://www.reddit.com/submit?title=Repond+a+mon+nouveau+sondage+du+site+Polly+!+Hésite+pas+à+partager+!&url=" +
-                        shareUri, '',
-                        'menubar=no, toolbar=no, resizable=yes, scrollbar=yes, height=600, width=600');
-                    break;
-                case "facebook":
-                    window.open(
-                        "https://www.facebook.com/sharer.php?t=Repond+a+mon+nouveau+sondage+du+site+Polly+!+Hésite+pas+à+partager+!&u=" +
-                        shareUri, '',
-                        'menubar=no, toolbar=no, resizable=yes, scrollbar=yes, height=600, width=600');
-                    break;
-                default:
-                    console.log("error");
-            }
-        }
-        //end share part
-
-        const submitButton = document.querySelector(".poll__button");
-        const departmentIndicator = document.querySelector(".department");
-
-        // Dataset of the map. Updated according to the poll country
-        const dataset = {
-            deps: "https://gist.githubusercontent.com/valaymerick/9690c82d6937015beb61b85a754d84e4/raw/eef0acc7967f26b3e7abf2b4519aebb3d7e9a8c2/departments-fr.geojson",
-            coords: [2.3522, 46.8566],
-            zoom: 4,
-            initialDep: "Paris",
+    }
+    //end share part
+    const submitButton = document.querySelector(".poll__button");
+    const departmentIndicator = document.querySelector(".department");
+    // Dataset of the map. Updated according to the poll country
+    const dataset = {
+        deps: "https://gist.githubusercontent.com/valaymerick/9690c82d6937015beb61b85a754d84e4/raw/eef0acc7967f26b3e7abf2b4519aebb3d7e9a8c2/departments-fr.geojson",
+        coords: [2.3522, 46.8566],
+        zoom: 4,
+        initialDep: "Paris",
+    };
+    const pollOptions = document.querySelector(".poll__options").childNodes;
+    submitButton.addEventListener("click", handleVote);
+    departmentIndicator.value = dataset.initialDep;
+    // Add events listeners to each option node
+    for (const option of pollOptions) {
+        option.addEventListener("click", function (event) {
+            cleanOptions();
+            option.classList.add("poll__option-selected");
+        });
+    }
+    // Handle click events on the "vote" button
+    function handleVote(e) {
+        selectedAnswer = document.querySelector(".poll__option-selected")
+            .value;
+        const vote = {
+            selectedAnswer,
+            selectedDep: departmentIndicator.value,
         };
-        const pollOptions = document.querySelector(".poll__options").childNodes;
-
-        submitButton.addEventListener("click", handleVote);
-        departmentIndicator.value = dataset.initialDep;
-
-        // Add events listeners to each option node
-        for (const option of pollOptions) {
-            option.addEventListener("click", function (event) {
-                cleanOptions();
-                option.classList.add("poll__option-selected");
-            });
+        // Send POST request to server
+        fetch('http://localhost/Polly/public/polls/32/answers/new', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: vote
+        }).then(() => console.log("hello"));
+    }
+    function cleanOptions() {
+        const selectedOptions = document.querySelectorAll(".poll__option-selected");
+        for (const option of selectedOptions) {
+            option.classList.remove("poll__option-selected");
         }
-
-        // Handle click events on the "vote" button
-        function handleVote(e) {
-            selectedAnswer = document.querySelector(".poll__option-selected")
-                .value;
-
-            const vote = {
-                selectedAnswer,
-                selectedDep: departmentIndicator.value,
-            };
-
-            // Send POST request to server
-
-            fetch('http://localhost/Polly/public/polls/32/answers/new', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+    }
+    
+    async function initMap() {
+        const map = new mapboxgl.Map({
+            container: "map",
+            style: "mapbox://styles/mapbox/streets-v11",
+            center: dataset.coords,
+            zoom: dataset.zoom,
+            initialDep: dataset.initialDep,
+        });
+        let hoveredStateId = null;
+        map.on("load", function () {
+            map.addSource("states", {
+                type: "geojson",
+                data: dataset.deps,
+            });
+            map.addLayer({
+                id: "state-fills",
+                type: "fill",
+                source: "states",
+                layout: {},
+                paint: {
+                    "fill-color": "rgba(175, 82, 222, 0.5)",
+                    "fill-opacity": [
+                        "case",
+                        ["boolean", ["feature-state", "hover"], false],
+                        1,
+                        0.5,
+                    ],
                 },
-                body: vote
-            }).then(() => console.log("hello"));
-        }
-
-        function cleanOptions() {
-            const selectedOptions = document.querySelectorAll(".poll__option-selected");
-            for (const option of selectedOptions) {
-                option.classList.remove("poll__option-selected");
-            }
-        }
-
-        function changeScrollValue() {
-
-        }
-
-        function initMap() {
-            mapboxgl.accessToken =
-                "pk.eyJ1IjoidmFsYXltZXJpY2siLCJhIjoiY2pyZmoxZWE0MHcxazQ5cDh3cWl1d3Q3aSJ9.c5JVdraGeQEgNaEZR40Bdw";
-            const map = new mapboxgl.Map({
-                container: "map",
-                style: "mapbox://styles/mapbox/streets-v11",
-                center: dataset.coords,
-                zoom: dataset.zoom,
-                initialDep: "",
             });
-            let hoveredStateId = null;
-
-            map.on("load", function () {
-                map.addSource("states", {
-                    type: "geojson",
-                    data: dataset.deps,
-                });
-
-                map.addLayer({
-                    id: "state-fills",
-                    type: "fill",
-                    source: "states",
-                    layout: {},
-                    paint: {
-                        "fill-color": "rgba(175, 82, 222, 0.5)",
-                        "fill-opacity": [
-                            "case",
-                            ["boolean", ["feature-state", "hover"], false],
-                            1,
-                            0.5,
-                        ],
-                    },
-                });
-
-                map.addLayer({
-                    id: "state-borders",
-                    type: "line",
-                    source: "states",
-                    layout: {},
-                    paint: {
-                        "line-color": "#af52de",
-                        "line-width": 2,
-                    },
-                });
-
-                map.on("click", "state-fills", function (e) {
-                    if (e.features.length > 0) {
-                        map.setFeatureState({
-                            source: "states",
-                            id: hoveredStateId
-                        }, {
-                            hover: false
-                        });
-                        hoveredStateId = e.features[0].id;
-                        map.setFeatureState({
-                            source: "states",
-                            id: hoveredStateId
-                        }, {
-                            hover: true
-                        });
-                        selectedDep = e.features[0].properties.department;
-                        departmentIndicator.value = selectedDep;
-                        let scroll = document.getElementById('poll_answers_new_department');
-                        for (let i = 0; i <= scroll.options.length; i++) {
-                            let valueItem = scroll.options[i].text;
-                            if (valueItem === selectedDep) {
-                                scroll.options[i].selected = true;
-                            }
+            map.addLayer({
+                id: "state-borders",
+                type: "line",
+                source: "states",
+                layout: {},
+                paint: {
+                    "line-color": "#af52de",
+                    "line-width": 2,
+                },
+            });
+            map.on("click", "state-fills", function (e) {
+                if (e.features.length > 0) {
+                    map.setFeatureState({
+                        source: "states",
+                        id: hoveredStateId
+                    }, {
+                        hover: false
+                    });
+                    hoveredStateId = e.features[0].id;
+                    map.setFeatureState({
+                        source: "states",
+                        id: hoveredStateId
+                    }, {
+                        hover: true
+                    });
+                    selectedDep = e.features[0].properties.department;
+                    departmentIndicator.value = selectedDep;
+                    let scroll = document.getElementById('poll_answers_new_department');
+                    for (let i = 0; i <= scroll.options.length; i++) {
+                        let valueItem = scroll.options[i].text;
+                        if (valueItem === selectedDep) {
+                            scroll.options[i].selected = true;
                         }
                     }
-                });
+                }
             });
-        }
-
-        initMap();
+        });
+    }
+    async function getVotesMapDataset() {
+        const geojsonData = await fetch(dataset.deps);
+        const collection = await geojsonData.text().then(r => JSON.parse(r));
+        const votes = JSON.parse(votesPerDep)
+        const features = collection.features.map(
+            feature => {
+                const zip = feature.properties.zipcode;
+                const v = votes.find(v => v[0].code === zip)
+                if (v) {
+                    const n = v[0].votes
+                    const properties = { ...{description: n}, ...feature.properties }
+                    return { ...feature, ...{properties} }
+                }
+                
+                return feature
+            }
+        )
+        return { ...collection, features }
+    }
+    async function getVotedFeatures() {
+        const geojsonData = await fetch(dataset.deps);
+        const collection = await geojsonData.text().then(r => JSON.parse(r));
+        const votes = JSON.parse(votesPerDep)
+        const features = collection.features.map(
+            feature => {
+                const zip = feature.properties.zipcode;
+                const v = votes.find(v => v[0].code === zip)
+                if (v) {
+                    const n = v[0].votes
+                    const properties = { ...{description: n}, ...feature.properties }
+                    return { ...feature, ...{properties} }
+                }
+                
+                return undefined;
+            }
+        )
+        return { ...collection, features: features.filter(f => f) }
+    }
+    async function initVotesMap() {
+        const map = new mapboxgl.Map({
+            container: "votes-map",
+            style: "mapbox://styles/mapbox/streets-v11",
+            center: dataset.coords,
+            zoom: dataset.zoom,
+            initialDep: dataset.initialDep,
+        });
+        let hoveredStateId = null;
+        const votedData = await getVotedFeatures();
+        map.on("load", function () {
+            map.addSource("states", {
+                type: "geojson",
+                data: votedData
+        });
+            map.addLayer({
+                id: "state-fills",
+                type: "fill",
+                source: "states",
+                layout: {},
+                paint: {
+                    "fill-color": "rgba(175, 82, 222, 0.5)",
+                    "fill-opacity": [
+                        "case",
+                        ["boolean", ["feature-state", "hover"], false],
+                        1,
+                        0.5,
+                    ],
+                },
+            });
+            map.addLayer({
+                'id': 'vote-labels',
+                'type': 'symbol',
+                'source': 'states',
+                'layout': {
+                    'text-field': ['get', 'description'],
+                    'text-variable-anchor': ['center', 'center', 'center', 'center'],
+                    'text-radial-offset': 0.5,
+                    'text-justify': 'auto',
+                    'text-font': ['Open Sans Bold'],
+                },
+                'paint': {
+                    "text-color": "#ffffff"
+                }
+            });
+            map.addLayer({
+                id: "state-borders",
+                type: "line",
+                source: "states",
+                layout: {},
+                paint: {
+                    "line-color": "#af52de",
+                    "line-width": 2,
+                },
+            });
+        });
+    }
+    initMap();
+    initVotesMap();
     </script>
     <style>
         button {
             width: 100%;
         }
-
         #poll_answers_new_department {
             visibility: hidden;
         }
-
         #poll_answers_new_option {
             border: 1px solid black;
             margin-top: 10px;
             border-radius: 10px;
             border-color: #C5C5C7;
         }
-
         #snackbar {
             visibility: hidden;
             min-width: 250px;
@@ -321,57 +376,46 @@
             bottom: 30px;
             border-radius: 12px;
         }
-
-
         #snackbar.show {
             visibility: visible;
             -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
             animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
-
-
         @-webkit-keyframes fadein {
             from {
                 bottom: 0;
                 opacity: 0;
             }
-
             to {
                 bottom: 30px;
                 opacity: 1;
             }
         }
-
         @keyframes fadein {
             from {
                 bottom: 0;
                 opacity: 0;
             }
-
             to {
                 bottom: 30px;
                 opacity: 1;
             }
         }
-
         @-webkit-keyframes fadeout {
             from {
                 bottom: 30px;
                 opacity: 1;
             }
-
             to {
                 bottom: 0;
                 opacity: 0;
             }
         }
-
         @keyframes fadeout {
             from {
                 bottom: 30px;
                 opacity: 1;
             }
-
             to {
                 bottom: 0;
                 opacity: 0;
