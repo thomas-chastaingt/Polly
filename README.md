@@ -35,7 +35,8 @@ Install dependencies and start the server
 
 ```bash
 $ composer install
-$ symfony server:start
+import .sql file
+launch the project on local server
 ```
 
 ## Codebase
